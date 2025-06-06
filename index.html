@@ -1,0 +1,754 @@
+
+<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" /> <!-- Placeholder icon, can be updated -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IA para Todos | Um Manifesto para uma IA Humana</title>
+    <meta name="description" content="Junte-se ao movimento por uma IA acessível, transparente e ética que beneficie todos." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        scroll-behavior: smooth;
+        background-color: #ffffff; /* Default body background */
+      }
+      .animated-section {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+      }
+      .animated-section.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .hero-content-parallax {
+        transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+      }
+      /* Ensure SVGs in buttons are aligned if they have specific sizes */
+      button svg, a svg {
+        vertical-align: middle;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/client": "https://esm.sh/react-dom@^19.1.0/client"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module">
+      import React from 'react';
+      import ReactDOM from 'react-dom/client';
+
+      // --- AnimatedSection Component ---
+      const AnimatedSection = ({ 
+        children, 
+        className = '', 
+        tag = 'div', 
+        delay,
+        id,
+        observerOptions
+      }) => {
+        const [isVisible, setIsVisible] = React.useState(false);
+        const elementRef = React.useRef(null);
+
+        React.useEffect(() => {
+          const observer = new IntersectionObserver(
+            ([entry]) => {
+              if (entry.isIntersecting) {
+                setIsVisible(true);
+                if (elementRef.current) {
+                  observer.unobserve(elementRef.current);
+                }
+              }
+            },
+            {
+              threshold: 0.1,
+              rootMargin: '0px 0px -50px 0px',
+              ...observerOptions,
+            }
+          );
+
+          const currentElement = elementRef.current;
+          if (currentElement) {
+            observer.observe(currentElement);
+          }
+
+          return () => {
+            if (currentElement) {
+              observer.unobserve(currentElement);
+            }
+          };
+        }, [observerOptions]);
+
+        const Tag = tag;
+        
+        const style = {};
+        if (delay) {
+          style.transitionDelay = delay;
+        }
+
+        return (
+          React.createElement(Tag, {
+            ref: elementRef,
+            id: id,
+            className: `${className} animated-section ${isVisible ? 'is-visible' : ''}`,
+            style: style
+          }, children)
+        );
+      };
+      
+      const scrollToSectionGlobal = (id) => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      };
+
+      // --- Footer Component ---
+      const Footer = () => {
+        const [currentYear, setCurrentYear] = React.useState(new Date().getFullYear());
+
+        React.useEffect(() => {
+          setCurrentYear(new Date().getFullYear());
+        }, []);
+      
+        return (
+          React.createElement("footer", { id: "footer", className: "bg-gray-900 text-white py-12" },
+            React.createElement("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8" },
+              React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-4 gap-8" },
+                React.createElement("div", { className: "md:col-span-2" },
+                  React.createElement("h3", { className: "text-2xl font-bold mb-4" }, "IA para Todos"),
+                  React.createElement("p", { className: "text-gray-400 mb-6 max-w-md" },
+                    "Um movimento para garantir que a tecnologia de IA sirva a humanidade com transparência, justiça e empatia em cada desenvolvimento."
+                  ),
+                  React.createElement("div", { className: "flex space-x-4" },
+                    React.createElement("a", { href: "#", className: "text-gray-400 hover:text-white transition-colors", "aria-label": "Twitter" },
+                      React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" }))
+                    ),
+                    React.createElement("a", { href: "#", className: "text-gray-400 hover:text-white transition-colors", "aria-label": "Github" },
+                      React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15-.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" }), React.createElement("path", { d: "M9 18c-4.51 2-5-2-7-2" }))
+                    ),
+                    React.createElement("a", { href: "#", className: "text-gray-400 hover:text-white transition-colors", "aria-label": "LinkedIn" },
+                      React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("path", { d: "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" }), React.createElement("rect", { width: "4", height: "12", x: "2", y: "9" }), React.createElement("circle", { cx: "4", cy: "4", r: "2" }))
+                    ),
+                    React.createElement("a", { href: "mailto:info@example.com", className: "text-gray-400 hover:text-white transition-colors", "aria-label": "Email" },
+                      React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }, React.createElement("rect", { width: "20", height: "16", x: "2", y: "4", rx: "2" }), React.createElement("path", { d: "m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" }))
+                    )
+                  )
+                ),
+                React.createElement("div", null,
+                  React.createElement("h4", { className: "text-lg font-semibold mb-4" }, "Explorar"),
+                  React.createElement("ul", { className: "space-y-2" },
+                    React.createElement("li", null, React.createElement("a", { href: "#manifesto", onClick: (e) => { e.preventDefault(); scrollToSectionGlobal('manifesto');}, className: "text-gray-400 hover:text-white transition-colors" }, "Manifesto")),
+                    React.createElement("li", null, React.createElement("a", { href: "#learn", onClick: (e) => { e.preventDefault(); scrollToSectionGlobal('learn');}, className: "text-gray-400 hover:text-white transition-colors" }, "Educação")),
+                     React.createElement("li", null, React.createElement("a", { href: "#resources", onClick: (e) => { e.preventDefault(); scrollToSectionGlobal('resources');}, className: "text-gray-400 hover:text-white transition-colors" }, "Recursos")),
+                    React.createElement("li", null, React.createElement("a", { href: "#", className: "text-gray-400 hover:text-white transition-colors" }, "Investigação"))
+                  )
+                ),
+                React.createElement("div", null,
+                  React.createElement("h4", { className: "text-lg font-semibold mb-4" }, "Participe"),
+                  React.createElement("ul", { className: "space-y-2" },
+                    React.createElement("li", null, React.createElement("a", { href: "#participate", onClick: (e) => { e.preventDefault(); scrollToSectionGlobal('participate');}, className: "text-gray-400 hover:text-white transition-colors" }, "Assine o Manifesto")),
+                    React.createElement("li", null, React.createElement("a", { href: "#", className: "text-gray-400 hover:text-white transition-colors" }, "Contribuir")),
+                    React.createElement("li", null, React.createElement("a", { href: "#participate", onClick: (e) => { e.preventDefault(); scrollToSectionGlobal('participate');}, className: "text-gray-400 hover:text-white transition-colors" }, "Comunidade")),
+                    React.createElement("li", null, React.createElement("a", { href: "#footer", onClick: (e) => { e.preventDefault(); scrollToSectionGlobal('footer');}, className: "text-gray-400 hover:text-white transition-colors" }, "Contacto"))
+                  )
+                )
+              ),
+              React.createElement("div", { className: "border-t border-gray-800 mt-12 pt-8 text-center" },
+                React.createElement("p", { className: "text-gray-400 text-sm mb-2" },
+                  "\u00a9 ", React.createElement("span", { id: "current-year" }, currentYear), " IA para Todos. Conteúdo sob licença Creative Commons."
+                ),
+                React.createElement("p", { className: "text-gray-400 text-sm" },
+                  "Uma iniciativa do Programa Municipal para a Literacia em Inteligência Artificial da Câmara Municipal de Lisboa."
+                )
+              )
+            )
+          )
+        );
+      };
+      
+      // --- ParticipateSection Component ---
+      const ParticipateSection = () => {
+        return (
+          React.createElement(AnimatedSection, {
+            tag: "section",
+            id: "participate",
+            className: "py-20 bg-gradient-to-br from-blue-600 via-purple-600 to-teal-500 text-white"
+          },
+            React.createElement("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8" },
+              React.createElement("div", { className: "text-center" }, 
+                React.createElement("h2", { className: "text-3xl md:text-4xl font-bold mb-4" }, "Junte-se ao Movimento"),
+                React.createElement("p", { className: "text-lg text-white/90 max-w-3xl mx-auto mb-12" },
+                  "Faça parte da construção de um futuro onde a IA sirva a humanidade. A sua voz é importante."
+                )
+              ),
+              React.createElement(AnimatedSection, {
+                tag: "div",
+                className: "max-w-lg mx-auto text-center", 
+                delay: "0.2s"
+              },
+                 React.createElement("a", {
+                    href: "https://forms.cloud.microsoft/e/dJ6L5vNCwU",
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                    className: "inline-block px-10 py-4 bg-white text-blue-700 rounded-full font-semibold text-lg hover:bg-blue-50 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
+                  }, "Assine o Manifesto")
+              ),
+              React.createElement(AnimatedSection, {
+                tag: "div",
+                className: "mt-16 grid md:grid-cols-3 gap-8 max-w-4xl mx-auto",
+                delay: "0.4s"
+              },
+                React.createElement("div", { className: "bg-white/10 backdrop-blur-sm p-6 rounded-lg hover:bg-white/15 transition-colors flex flex-col justify-between" },
+                  React.createElement("div", null,
+                    React.createElement("h3", { className: "text-xl font-semibold mb-2" }, "Mantenha-se Informado"),
+                    React.createElement("p", { className: "text-white/80 mb-4" }, "Receba atualizações sobre os mais recentes desenvolvimentos em IA, explicados em linguagem simples.")
+                  ),
+                  React.createElement("a", {
+                    href: "#", 
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                    className: "mt-auto inline-block bg-transparent border border-white/50 text-white/90 px-5 py-2 rounded-full text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-center"
+                  }, "Subscrever")
+                ),
+                React.createElement("div", { className: "bg-white/10 backdrop-blur-sm p-6 rounded-lg hover:bg-white/15 transition-colors flex flex-col justify-between" },
+                  React.createElement("div", null,
+                    React.createElement("h3", { className: "text-xl font-semibold mb-2" }, "Participe nas Discussões"),
+                    React.createElement("p", { className: "text-white/80 mb-4" }, "Participe em fóruns comunitários e molde a conversa em torno de uma IA humana.")
+                  ),
+                  React.createElement("a", {
+                    href: "#", 
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                    className: "mt-auto inline-block bg-transparent border border-white/50 text-white/90 px-5 py-2 rounded-full text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-center"
+                  }, "Comunidade")
+                ),
+                React.createElement("div", { className: "bg-white/10 backdrop-blur-sm p-6 rounded-lg hover:bg-white/15 transition-colors flex flex-col justify-between" },
+                  React.createElement("div", null,
+                    React.createElement("h3", { className: "text-xl font-semibold mb-2" }, "Aja"),
+                    React.createElement("p", { className: "text-white/80 mb-4" }, "Envolva-se em iniciativas que promovem uma IA ética e acessível para todos.")
+                  ),
+                  React.createElement("a", {
+                    href: "#", 
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                    className: "mt-auto inline-block bg-transparent border border-white/50 text-white/90 px-5 py-2 rounded-full text-sm font-medium hover:bg-white/10 hover:text-white transition-colors text-center"
+                  }, "Contribuir")
+                )
+              )
+            )
+          )
+        );
+      };
+
+      // --- LearnSection Components ---
+      const LearnItem = ({ icon, title, level, levelColorClass, description, delay }) => (
+        React.createElement(AnimatedSection, {
+          tag: "div",
+          className: "bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all hover:-translate-y-1 h-full",
+          delay: delay
+        },
+          React.createElement("div", { className: "flex items-start" },
+            React.createElement("div", { className: "bg-blue-50 p-4 rounded-lg mr-5" }, icon),
+            React.createElement("div", null,
+              React.createElement("div", { className: "flex items-center gap-3 mb-2" },
+                React.createElement("h3", { className: "text-xl font-semibold" }, title),
+                React.createElement("span", { className: `text-xs px-2 py-1 rounded-full ${levelColorClass}` }, level)
+              ),
+              React.createElement("p", { className: "text-gray-600" }, description),
+              React.createElement("a", { href: "#resources", onClick: (e) => { e.preventDefault(); scrollToSectionGlobal('resources');}, className: "inline-block mt-4 text-blue-600 font-medium hover:text-blue-700" }, "Explorar Recursos →")
+            )
+          )
+        )
+      );
+      
+      const LearnSection = () => {
+        const resources = [
+          {
+            icon: React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "32", height: "32", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "text-blue-600" }, React.createElement("path", { d: "M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" })),
+            title: "Fundamentos de IA",
+            level: "Iniciante",
+            levelColorClass: "bg-green-100 text-green-800",
+            description: "Comece a sua jornada com conceitos fundamentais explicados em linguagem simples.",
+            delay: "0s"
+          },
+          {
+            icon: React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "32", height: "32", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "text-blue-600" }, React.createElement("path", { d: "M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" }), React.createElement("path", { d: "M14 2v4a2 2 0 0 0 2 2h4" }), React.createElement("path", { d: "M10 9H8" }), React.createElement("path", { d: "M16 13H8" }), React.createElement("path", { d: "M16 17H8" })),
+            title: "Guias de Ética",
+            level: "Todos os Níveis",
+            levelColorClass: "bg-blue-100 text-blue-800",
+            description: "Compreenda as considerações éticas e as implicações do desenvolvimento da IA.",
+            delay: "0.1s"
+          },
+          {
+            icon: React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "32", height: "32", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "text-blue-600" }, React.createElement("rect", { width: "20", height: "14", x: "2", y: "3", rx: "2" }), React.createElement("line", { x1: "2", x2: "22", y1: "20", y2: "20" })),
+            title: "Ferramentas Práticas",
+            level: "Interativo",
+            levelColorClass: "bg-purple-100 text-purple-800",
+            description: "Descubra ferramentas acessíveis que lhe permitem experienciar a IA em primeira mão.",
+            delay: "0.2s"
+          },
+          {
+            icon: React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "32", height: "32", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "text-blue-600" }, React.createElement("path", { d: "m22 8-6 4 6 4V8Z" }), React.createElement("rect", { width: "14", height: "12", x: "2", y: "6", rx: "2", ry: "2" })),
+            title: "Séries de Vídeos",
+            level: "Visual",
+            levelColorClass: "bg-orange-100 text-orange-800",
+            description: "Assista aos nossos vídeos explicativos que decompõem tópicos complexos de IA.",
+            delay: "0.3s"
+          }
+        ];
+      
+        return (
+          React.createElement(AnimatedSection, { tag: "section", id: "learn", className: "py-20 bg-gray-50" },
+            React.createElement("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8" },
+              React.createElement("div", null,
+                React.createElement("h2", { className: "text-3xl md:text-4xl font-bold text-center mb-4" },
+                  "Aprender Sobre ", React.createElement("span", { className: "text-blue-600" }, "IA")
+                ),
+                React.createElement("p", { className: "text-lg text-gray-600 text-center max-w-3xl mx-auto mb-16" },
+                  "Explore os nossos recursos concebidos para tornar a IA compreensível para todos."
+                )
+              ),
+              React.createElement("div", { className: "grid md:grid-cols-2 gap-8" },
+                resources.map((resource, index) =>
+                  React.createElement(LearnItem, {
+                    key: index,
+                    icon: resource.icon,
+                    title: resource.title,
+                    level: resource.level,
+                    levelColorClass: resource.levelColorClass,
+                    description: resource.description,
+                    delay: resource.delay
+                  })
+                )
+              ),
+              React.createElement(AnimatedSection, {
+                tag: "div",
+                className: "mt-16 text-center",
+                delay: "0.4s"
+              },
+                React.createElement("a", { href: "#resources", onClick: (e) => { e.preventDefault(); scrollToSectionGlobal('resources');}, className: "inline-block px-8 py-4 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl" },
+                  "Ver Todos os Recursos"
+                )
+              )
+            )
+          )
+        );
+      };
+      
+      // --- ManifestoSection Components ---
+      const ManifestoCard = ({ icon, title, description, delay }) => (
+        React.createElement(AnimatedSection, {
+          tag: "div",
+          className: "bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow h-full flex flex-col",
+          delay: delay
+        },
+          React.createElement("div", { className: "bg-blue-50 p-3 rounded-lg w-fit mb-5" }, icon),
+          React.createElement("h3", { className: "text-xl font-semibold mb-3" }, title),
+          React.createElement("p", { className: "text-gray-600 leading-relaxed flex-grow" }, description)
+        )
+      );
+      
+      const ManifestoSection = () => {
+        const principles = [
+          { 
+            icon: React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "32", height: "32", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "text-blue-600" }, React.createElement("path", { d: "M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" }), React.createElement("path", { d: "M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" })),
+            title: "Literacia",
+            description: "A IA deve ser explicável e compreensível para todos, não apenas para especialistas. Acreditamos na desmistificação da IA e em tornar os seus conceitos acessíveis a todos.",
+            delay: "0s"
+          },
+          { 
+            icon: React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "32", height: "32", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "text-blue-600" }, React.createElement("path", { d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" }), React.createElement("circle", { cx: "9", cy: "7", r: "4" }), React.createElement("path", { d: "M22 21v-2a4 4 0 0 0-3-3.87" }), React.createElement("path", { d: "M16 3.13a4 4 0 0 1 0 7.75" })),
+            title: "Inclusividade",
+            description: "Ninguém deve ser excluído dos benefícios da IA com base no seu contexto social, económico ou qualquer outra condição. Os sistemas de IA devem ser concebidos com base na diversidade e na acessibilidade.",
+            delay: "0.1s"
+          },
+          { 
+            icon: React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "32", height: "32", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "text-blue-600" }, React.createElement("path", { d: "M15 14c.2-1 .7-1.7 1.5-2.5C17.3 10.7 18 9.7 18 8.5c0-1.4-1.1-2.5-2.5-2.5S13 7.1 13 8.5c0 1.2.7 2.2 1.5 3 .8.8 1.3 1.5 1.5 2.5" }), React.createElement("path", { d: "M9 18h6" }), React.createElement("path", { d: "M10 22h4" }), React.createElement("path", { d: "M12 18v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" }), React.createElement("path", { d: "M22 22v-2a4 4 0 0 0-4-4h-2" }), React.createElement("path", { d: "M12 6V5a1 1 0 0 0-1-1H9.5a2.5 2.5 0 0 1 0-5C11 1 12 2 12 5Z" })),
+            title: "Potencial Humano",
+            description: "A IA deve expandir as capacidades humanas, não substituí-las. Defendemos tecnologias de IA que capacitam as pessoas e desenvolvem o potencial humano.",
+            delay: "0.2s"
+          },
+          { 
+            icon: React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "32", height: "32", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "text-blue-600" }, React.createElement("circle", { cx: "12", cy: "12", r: "10" }), React.createElement("path", { d: "M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" }), React.createElement("path", { d: "M2 12h20" })),
+            title: "Responsabilidade",
+            description: "A IA deve ser desenvolvida com base em regras justas e implementada com transparência. Os efeitos diretos das tecnologias de IA devem ser imputáveis aos seus autores.",
+            delay: "0.3s"
+          },
+          {
+            icon: React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "32", height: "32", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "text-blue-600" }, React.createElement("path", { d: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" })),
+            title: "Bem Comum",
+            description: "A IA deve promover ativamente o bem-estar da Humanidade e não causar danos ao planeta. Deve respeitar os direitos humanos, os valores democráticos e contribuir ativamente para os Objetivos de Desenvolvimento Sustentável.",
+            delay: "0.4s"
+          },
+          {
+            icon: React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "32", height: "32", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "text-blue-600" }, React.createElement("path", { d: "M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" }), React.createElement("circle", { cx: "12", cy: "12", r: "3" })),
+            title: "Supervisão Humana",
+            description: "As pessoas devem ter uma palavra a dizer sobre como é que a IA é usada na nossa sociedade. E todos os sistemas de IA, incluindo os mais avançados, devem incluir mecanismos de supervisão e controlo humanos, especialmente em situações de alto risco.",
+            delay: "0.5s"
+          }
+        ];
+      
+        return (
+          React.createElement(AnimatedSection, { tag: "section", id: "manifesto", className: "py-20 bg-white" },
+            React.createElement("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8" },
+              React.createElement("div", null,
+                React.createElement("h2", { className: "text-3xl md:text-4xl font-bold text-center mb-4" },
+                  "O Nosso ", React.createElement("span", { className: "text-blue-600" }, "Manifesto")
+                ),
+                React.createElement("p", { className: "text-lg text-gray-600 text-center max-w-3xl mx-auto mb-16" },
+                  "Ninguém deve ser excluído de compreender, utilizar ou beneficiar da Inteligência Artificial. Este manifesto convida todos os cidadãos a transformar as tecnologias para que sirvam toda a humanidade."
+                )
+              ),
+              React.createElement("div", { className: "grid md:grid-cols-2 lg:grid-cols-3 gap-8" }, 
+                principles.map((principle, index) =>
+                  React.createElement(ManifestoCard, {
+                    key: index,
+                    icon: principle.icon,
+                    title: principle.title,
+                    description: principle.description,
+                    delay: principle.delay
+                  })
+                )
+              ),
+              React.createElement(AnimatedSection, {
+                tag: "div",
+                className: "mt-16 text-center",
+                delay: "0.6s" 
+              },
+                React.createElement("a", { 
+                    href: "https://docs.google.com/document/d/1WG8fopEEd_76YBZg_jNg0Nz6xBK39angAjc2imIAh6Q/edit?usp=sharing",
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                    className: "inline-block px-8 py-4 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl" 
+                }, "Manifesto")
+              ),
+              React.createElement(AnimatedSection, {
+                tag: "div",
+                className: "mt-16 bg-gradient-to-r from-blue-50 to-purple-50 p-8 md:p-12 rounded-2xl",
+                delay: "0.7s" 
+              },
+                React.createElement("blockquote", { className: "text-xl md:text-2xl text-gray-700 font-medium italic text-center" },
+                  "\"A literacia em Inteligência Artificial de todos os cidadãos é a chave para transformar o futuro da IA e da Humanidade!\""
+                )
+              )
+            )
+          )
+        );
+      };
+
+       // --- ResourcesSection Component ---
+      const ResourceCard = ({ icon, title, description, topics, buttonText, buttonLink = "#", delay }) => (
+        React.createElement(AnimatedSection, {
+          tag: "div",
+          className: "bg-white p-8 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow h-full flex flex-col",
+          delay: delay
+        },
+          React.createElement("div", { className: "flex items-start mb-5" },
+            React.createElement("div", { className: "bg-blue-100 p-4 rounded-lg mr-5 w-16 h-16 flex items-center justify-center" }, icon),
+            React.createElement("h3", { className: "text-2xl font-semibold text-gray-800 leading-tight" }, title)
+          ),
+          React.createElement("p", { className: "text-gray-600 leading-relaxed mb-4 flex-grow" }, description),
+          topics && topics.length > 0 && (
+            React.createElement("div", {className: "mb-6"},
+              React.createElement("h4", { className: "text-md font-semibold text-gray-700 mb-2" }, "Tópicos Chave:"),
+              React.createElement("ul", { className: "list-disc list-inside text-gray-600 space-y-1 text-sm" },
+                topics.map((topic, index) => React.createElement("li", { key: index }, topic))
+              )
+            )
+          ),
+          React.createElement("a", {
+            href: buttonLink,
+            onClick: (e) => { if (buttonLink === "#") e.preventDefault(); },
+            className: "mt-auto inline-block bg-blue-600 text-white text-center px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
+          }, buttonText)
+        )
+      );
+
+      const ResourcesSection = () => {
+        const resources = [
+          {
+            icon: React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "32", height: "32", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "text-blue-600" }, React.createElement("path", { d: "M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" })),
+            title: "Fundamentos de IA: Da Teoria à Prática",
+            description: "Domine os conceitos centrais de IA. Cobrimos tudo, desde algoritmos fundamentais e o papel dos dados na IA até às distinções entre IA Restrita, IA Geral e Superinteligência. Explore percursos de aprendizagem para iniciantes e para quem procura atualizar os seus conhecimentos.",
+            topics: ["Modelos de Aprendizagem Automática", "Arquiteturas de Redes Neuronais", "Pré-processamento de Dados", "Fundamentos de Processamento de Linguagem Natural"],
+            buttonText: "Iniciar Curso de Fundamentos de IA",
+            delay: "0s"
+          },
+          {
+            icon: React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "32", height: "32", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "text-blue-600" }, React.createElement("path", { d: "M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" }), React.createElement("path", { d: "M14 2v4a2 2 0 0 0 2 2h4" }), React.createElement("path", { d: "M10 9H8" }), React.createElement("path", { d: "M16 13H8" }), React.createElement("path", { d: "M16 17H8" })),
+            title: "IA Ética: Estruturas e Dilemas",
+            description: "Aprofunde as dimensões éticas críticas da IA. Compreenda como podem surgir preconceitos, a importância da transparência na tomada de decisões por IA e estruturas para construir sistemas de IA responsáveis. Exploramos estudos de caso do mundo real e debates em curso.",
+            topics: ["Preconceito Algorítmico e Justiça", "Transparência e Explicabilidade da IA (XAI)", "Privacidade e Segurança de Dados", "Governação e Regulamentação da IA"],
+            buttonText: "Ler Artigos sobre Ética",
+            delay: "0.1s"
+          },
+          {
+            icon: React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "32", height: "32", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "text-blue-600" }, React.createElement("rect", { width: "20", height: "14", x: "2", y: "3", rx: "2" }), React.createElement("line", { x1: "2", x2: "22", y1: "20", y2: "20" })),
+            title: "IA Interativa: Ferramentas e Simuladores",
+            description: "Interaja diretamente com a IA através da nossa lista curada de ferramentas interativas, simuladores e projetos de código aberto. Experimente modelos simples, visualize dados e compreenda as capacidades da IA num ambiente prático. Não é necessária experiência em programação para muitas ferramentas!",
+            topics: ["Construtores de Modelos de IA Sem Código", "Widgets de Visualização de Dados", "Sandbox de Demonstração de PLN", "Testadores de Reconhecimento de Imagem"],
+            buttonText: "Aceder ao Playground de IA",
+            delay: "0.2s"
+          },
+          {
+            icon: React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "32", height: "32", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "text-blue-600" }, React.createElement("path", { d: "m22 8-6 4 6 4V8Z" }), React.createElement("rect", { width: "14", height: "12", x: "2", y: "6", rx: "2", ry: "2" })),
+            title: "IA Explicada: Vídeos e Palestras de Especialistas",
+            description: "Aprenda visualmente com a nossa abrangente videoteca. Inclui explicadores animados para tópicos complexos, entrevistas com especialistas em IA e gravações de webinars anteriores sobre investigação e aplicações de IA de vanguarda. Adequado para todas as preferências de aprendizagem.",
+            topics: ["Série 'IA em 5 Minutos'", "Painéis de Discussão com Especialistas", "Tutoriais sobre Ferramentas de IA", "Webinars sobre o Futuro do Trabalho com IA"],
+            buttonText: "Consultar Videoteca",
+            delay: "0.3s"
+          }
+        ];
+
+        return (
+          React.createElement(AnimatedSection, { tag: "section", id: "resources", className: "py-20 bg-white" },
+            React.createElement("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8" },
+              React.createElement("div", {className: "text-center"},
+                React.createElement("h2", { className: "text-3xl md:text-4xl font-bold text-gray-800 mb-4" }, 
+                  React.createElement("span", { className: "text-blue-600" }, "Recursos")
+                ),
+                React.createElement("p", { className: "text-lg text-gray-600 max-w-3xl mx-auto mb-16" },
+                  "Mergulhe mais fundo no mundo da IA com os nossos guias abrangentes, ferramentas e discussões concebidos para todos os níveis de compreensão."
+                )
+              ),
+              React.createElement("div", { className: "grid md:grid-cols-2 gap-10" },
+                resources.map((resource, index) =>
+                  React.createElement(ResourceCard, {
+                    key: index,
+                    icon: resource.icon,
+                    title: resource.title,
+                    description: resource.description,
+                    topics: resource.topics,
+                    buttonText: resource.buttonText,
+                    delay: resource.delay
+                  })
+                )
+              )
+            )
+          )
+        );
+      };
+      
+      // --- HeroSection Component ---
+      const HeroSection = () => {
+        const heroContentRef = React.useRef(null);
+      
+        React.useEffect(() => {
+          const handleScroll = () => {
+            if (heroContentRef.current) {
+              const scrollPos = window.scrollY;
+              const opacity = Math.max(1 - (scrollPos / 500), 0);
+              const translateY = scrollPos * 0.4;
+              
+              heroContentRef.current.style.opacity = opacity.toString();
+              heroContentRef.current.style.transform = `translateY(${translateY}px)`;
+            }
+          };
+      
+          window.addEventListener('scroll', handleScroll);
+          handleScroll(); 
+      
+          return () => {
+            window.removeEventListener('scroll', handleScroll);
+          };
+        }, []);
+      
+        return (
+          React.createElement("section", { id: "hero", className: "relative h-screen flex items-center justify-center overflow-hidden" },
+            React.createElement("div", { className: "absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-teal-500 z-0" }),
+            React.createElement("div", { className: "absolute inset-0 bg-black/30 z-0" }),
+            React.createElement("div", { ref: heroContentRef, id: "hero-content", className: "container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center hero-content-parallax" },
+              React.createElement("h1", { className: "text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6" },
+                "IA para ", React.createElement("span", { className: "text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-teal-100" }, "Todos")
+              ),
+              React.createElement("p", { className: "text-lg md:text-xl lg:text-2xl text-white/90 max-w-3xl mx-auto mb-10 leading-relaxed" },
+                "Defendemos uma IA mais humana que sirva todas as pessoas, independentemente da sua condição e que se baseie em regras claras, na transparência e no bem comum."
+              ),
+              React.createElement("div", { className: "flex flex-col sm:flex-row gap-4 justify-center" },
+                React.createElement("a", { 
+                  href: "https://docs.google.com/document/d/1WG8fopEEd_76YBZg_jNg0Nz6xBK39angAjc2imIAh6Q/edit?usp=sharing",
+                  target: "_blank",
+                  rel: "noopener noreferrer",
+                  className: "px-8 py-3 bg-white text-blue-600 rounded-full font-medium hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1" 
+                }, "Manifesto"),
+                React.createElement("button", { onClick: () => scrollToSectionGlobal('participate'), className: "px-8 py-3 bg-transparent border-2 border-white text-white rounded-full font-medium hover:bg-white/10 transition-all" },
+                  "Junte-se ao Movimento"
+                )
+              )
+            ),
+            React.createElement("div", { className: "absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white animate-bounce z-10" },
+              React.createElement("button", {
+                className: "flex flex-col items-center opacity-80 hover:opacity-100 transition-opacity",
+                onClick: () => scrollToSectionGlobal('manifesto'),
+                "aria-label": "Explorar mais"
+              },
+                React.createElement("span", { className: "text-sm mb-2" }, "Explorar"),
+                React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "h-6 w-6" },
+                  React.createElement("line", { x1: "12", x2: "12", y1: "5", y2: "19" }),
+                  React.createElement("polyline", { points: "19 12 12 19 5 12" })
+                )
+              )
+            )
+          )
+        );
+      };
+
+      // --- Header Component ---
+      const Header = ({ isScrolled }) => {
+        const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+
+        const headerBaseClasses = "fixed w-full z-50 transition-all duration-300";
+        const headerScrolledClasses = "bg-white/90 backdrop-blur-md shadow-sm";
+        const headerTopClasses = "bg-transparent";
+
+        const titleScrolledClasses = "text-blue-600";
+        const titleTopClasses = "text-white";
+
+        const linkScrolledClasses = "text-gray-700 hover:text-blue-600";
+        const linkTopClasses = "text-white/90 hover:text-white";
+        
+        const mobileButtonScrolledClasses = "text-gray-700";
+        const mobileButtonTopClasses = "text-white";
+
+        const handleScrollToSection = (id) => {
+          scrollToSectionGlobal(id);
+          setIsMobileMenuOpen(false);
+        };
+        
+        const navLinks = [
+            { href: "#manifesto", label: "Manifesto", id: "manifesto" },
+            { href: "#learn", label: "Aprender", id: "learn" },
+            { href: "#participate", label: "Participar", id: "participate" },
+            { href: "#resources", label: "Recursos", id: "resources" },
+            { href: "#footer", label: "Sobre", id: "footer" }
+        ];
+
+        return (
+          React.createElement("header", { id: "header", className: `${headerBaseClasses} ${isScrolled ? headerScrolledClasses : headerTopClasses}` },
+            React.createElement("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8" },
+              React.createElement("div", { className: "flex items-center justify-between h-16" },
+                React.createElement("div", { className: "flex items-center" },
+                  React.createElement("a", { href: "#", onClick: (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }, className: "flex items-center" },
+                    React.createElement("span", { id: "header-title", className: `text-2xl font-bold transition-colors duration-300 ${isScrolled ? titleScrolledClasses : titleTopClasses}` },
+                      "IA para Todos"
+                    )
+                  )
+                ),
+                React.createElement("nav", { className: "hidden md:block" },
+                  React.createElement("ul", { className: "flex space-x-8" },
+                    navLinks.map(link => 
+                      React.createElement("li", { key: link.id }, 
+                        React.createElement("a", { 
+                          href: link.href, 
+                          onClick: (e) => { e.preventDefault(); handleScrollToSection(link.id); }, 
+                          className: `header-link transition-colors duration-300 text-sm font-medium ${isScrolled ? linkScrolledClasses : linkTopClasses}` 
+                        }, link.label)
+                      )
+                    )
+                  )
+                ),
+                React.createElement("div", { className: "flex md:hidden" },
+                  React.createElement("button", {
+                    id: "mobile-menu-button",
+                    onClick: () => setIsMobileMenuOpen(!isMobileMenuOpen),
+                    className: `transition-colors duration-300 ${isScrolled ? mobileButtonScrolledClasses : mobileButtonTopClasses}`,
+                    "aria-label": "Alternar menu",
+                    "aria-expanded": isMobileMenuOpen
+                  },
+                  isMobileMenuOpen ? (
+                    React.createElement("svg", { id: "close-icon", xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "h-6 w-6" }, React.createElement("line", { x1: "18", x2: "6", y1: "6", y2: "18" }), React.createElement("line", { x1: "6", x2: "18", y1: "6", y2: "18" }))
+                  ) : (
+                    React.createElement("svg", { id: "menu-icon", xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "h-6 w-6" }, React.createElement("line", { x1: "4", x2: "20", y1: "12", y2: "12" }), React.createElement("line", { x1: "4", x2: "20", y1: "6", y2: "6" }), React.createElement("line", { x1: "4", x2: "20", y1: "18", y2: "18" }))
+                  )
+                  )
+                )
+              )
+            ),
+            isMobileMenuOpen && (
+              React.createElement("div", { id: "mobile-menu", className: "md:hidden" },
+                React.createElement("div", { className: "px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg" },
+                  React.createElement("a", { href: "#", onClick: (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); setIsMobileMenuOpen(false); }, className: "mobile-menu-item flex items-center text-gray-700 hover:bg-blue-50 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium" },
+                    React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "mr-3 h-5 w-5" }, React.createElement("path", { d: "m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" }), React.createElement("polyline", { points: "9 22 9 12 15 12 15 22" })),
+                    "Início"
+                  ),
+                  navLinks.map(link => 
+                     React.createElement("a", { 
+                        key: link.id,
+                        href: link.href, 
+                        onClick: (e) => { e.preventDefault(); handleScrollToSection(link.id); }, 
+                        className: "mobile-menu-item flex items-center text-gray-700 hover:bg-blue-50 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium" 
+                      }, 
+                      // Basic icons for mobile menu for illustration
+                      link.label === "Manifesto" && React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "mr-3 h-5 w-5" }, React.createElement("path", { d: "M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" }), React.createElement("path", { d: "M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" })),
+                      link.label === "Aprender" && React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "mr-3 h-5 w-5" }, React.createElement("line", { x1: "18", x2: "18", y1: "20", y2: "10" }), React.createElement("line", { x1: "12", x2: "12", y1: "20", y2: "4" }), React.createElement("line", { x1: "6", x2: "6", y1: "20", y2: "14" })),
+                      link.label === "Participar" && React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "mr-3 h-5 w-5" }, React.createElement("path", { d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" }), React.createElement("circle", { cx: "9", cy: "7", r: "4" }), React.createElement("path", { d: "M22 21v-2a4 4 0 0 0-3-3.87" }), React.createElement("path", { d: "M16 3.13a4 4 0 0 1 0 7.75" })),
+                      link.label === "Recursos" && React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "mr-3 h-5 w-5"}, React.createElement("path", {"d":"M4 19.5A2.5 2.5 0 0 1 6.5 17H20"}), React.createElement("path", {"d":"M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"})),
+                      link.label
+                    )
+                  )
+                )
+              )
+            )
+          )
+        );
+      };
+
+      // --- App Component ---
+      const App = () => {
+        const [isHeaderScrolled, setIsHeaderScrolled] = React.useState(false);
+
+        const handleScroll = React.useCallback(() => {
+          if (window.scrollY > 50) {
+            setIsHeaderScrolled(true);
+          } else {
+            setIsHeaderScrolled(false);
+          }
+        }, []);
+
+        React.useEffect(() => {
+          window.addEventListener('scroll', handleScroll);
+          handleScroll(); // Initial check
+          return () => {
+            window.removeEventListener('scroll', handleScroll);
+          };
+        }, [handleScroll]);
+
+        return (
+          React.createElement("div", { className: "bg-white" },
+            React.createElement(Header, { isScrolled: isHeaderScrolled }),
+            React.createElement("main", null,
+              React.createElement(HeroSection, null),
+              React.createElement(ManifestoSection, null),
+              React.createElement(LearnSection, null),
+              React.createElement(ParticipateSection, null),
+              React.createElement(ResourcesSection, null)
+            ),
+            React.createElement(Footer, null)
+          )
+        );
+      };
+
+      // --- Mount Application ---
+      const rootElement = document.getElementById('root');
+      if (!rootElement) {
+        throw new Error("Could not find root element to mount to");
+      }
+
+      const root = ReactDOM.createRoot(rootElement);
+      root.render(
+        React.createElement(React.StrictMode, null,
+          React.createElement(App, null)
+        )
+      );
+    </script>
+  </body>
+</html>
