@@ -37,7 +37,7 @@
         }
 
         .lesson-block {
-            padding: 20px 40px;
+            padding: 30px 40px;
             border-bottom: 1px solid var(--light-gray);
         }
 
@@ -98,6 +98,13 @@
             background-color: var(--primary-color);
         }
         .btn-main:hover { background-color: #234E7F; }
+        .activity-block {
+            background-color: #f0f8ff;
+            border: 2px dashed var(--secondary-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
 
         /* --- Elementos Interativos --- */
         .hidden-content { display: none; }
@@ -189,26 +196,39 @@
         <div class="lesson-block intro-block">
             <p>LIÇÃO 1 DE 5</p>
             <h1>Bem-vindos à Descoberta da Inteligência Artificial!</h1>
-            <p>Olá! Está prestes a iniciar uma viagem fascinante pelo mundo da IA. Nesta primeira lição, vamos desmistificar a "magia" e dar os primeiros passos para usar esta poderosa ferramenta no seu dia a dia.</p>
+            <p>Olá! Esta página é o seu diário de bordo digital para a nossa primeira sessão. Use-a para acompanhar as atividades, aceder a recursos e aprofundar os conceitos. Vamos começar a nossa viagem!</p>
         </div>
 
         <div class="lesson-block">
-            <h2>Etapa A: O Nosso Ponto de Partida</h2>
-            <p>No início da nossa sessão, definimos juntos o rumo da nossa viagem. Votámos nos temas que mais nos interessam e concordámos em explorar este novo mundo com curiosidade e espírito de equipa. Esta página será o seu diário de bordo digital para acompanhar cada passo!</p>
-            <button class="btn" onclick="revealContent('etapaB', this, 1)">➡️ AVANÇAR</button>
+            <h2>O Nosso Ponto de Partida</h2>
+            <p>Um bom curso é aquele que responde às suas necessidades. Por isso, o nosso primeiro passo na sessão é uma votação para decidir em conjunto os temas mais importantes a explorar. É a sua voz que define o nosso mapa!</p>
+            <div class="activity-block">
+                <h4>Atividade em Sala: Votação de Interesses</h4>
+                <p>Neste momento, os formadores estão a conduzir uma votação em grupo. Participe e ajude a definir o rumo do curso!</p>
+                <button class="btn" onclick="revealContent('temasVotacao', this, 1)">Ver Temas em Votação</button>
+                <ul id="temasVotacao" class="hidden-content" style="margin-top:15px; text-align:left;">
+                    <li>Criar imagens divertidas com IA</li>
+                    <li>Criar música com IA</li>
+                    <li>Escrever melhores emails com IA</li>
+                    <li>Compreender como funciona a programação</li>
+                    <li>Saber como funciona a IA</li>
+                    <li>Proteger-se dos perigos da IA</li>
+                </ul>
+            </div>
+             <button class="btn" onclick="revealContent('etapaB', this, 1)">➡️ Continuar</button>
         </div>
 
         <div id="etapaB" class="hidden-content">
             <div class="lesson-block">
-                <h2>Etapa B: Desmistificar a "Magia" da IA</h2>
-                <p>A Inteligência Artificial pode parecer algo saído de um filme, mas a sua base é surpreendentemente lógica. Vamos desvendá-la juntos.</p>
+                <h2>Desmistificar a "Magia" da IA</h2>
+                <p>A Inteligência Artificial pode parecer complexa, mas a sua base é surpreendentemente lógica. Vamos desvendá-la juntos.</p>
                 
-                <h3>1. Veja como os especialistas explicam</h3>
-                <p>O vídeo seguinte apresenta os conceitos fundamentais diretamente dos criadores de algumas das mais famosas IAs.</p>
+                <h3>1. Como os especialistas explicam</h3>
+                <p>Para começar, vamos assistir a um pequeno vídeo onde os próprios criadores de algumas das mais famosas IAs nos explicam os conceitos fundamentais.</p>
                 <a href="https://www.youtube.com/watch?v=X-AWdfSFCHQ" target="_blank" class="btn" onclick="addPoints(2)">▶️ VER O VÍDEO<span class="points">+2 PONTOS!</span></a>
 
-                <h3 style="margin-top: 30px;">2. Os 3 Conceitos-Chave</h3>
-                <p>No vídeo, foram mencionados alguns termos importantes. Clique em cada conceito abaixo para o desvendar.</p>
+                <h3 style="margin-top: 30px;">2. Os Conceitos-Chave da IA Generativa</h3>
+                <p>O vídeo introduziu alguns termos importantes. Clique em cada conceito abaixo para o desvendar e perceber a ideia principal.</p>
                 
                 <div class="accordion-item">
                     <button class="accordion-header" onclick="toggleAccordion(this, 1)">Grandes Modelos de Linguagem (LLMs)<span class="points">+1 PONTO!</span></button>
@@ -223,59 +243,79 @@
                     <div class="accordion-content"><p>A IA não vê apenas letras, mas "bocados" de palavras chamados **tokens** (ex: a palavra "rapidamente" pode ser vista como "rapida" + "mente"). Para além disso, para garantir que a IA é segura e útil, centenas de pessoas trabalham para a treinar e afinar, ensinando-a a evitar respostas tóxicas ou perigosas.</p></div>
                 </div>
 
-                <h3 style="margin-top: 30px;">3. Simular o Raciocínio da IA</h3>
-                <p>Agora, vamos fazer uma pequena pausa para um jogo em grupo: o "Jogo da Construção em Cadeia". Este jogo vai ajudar-nos a simular o processo de pensamento da IA. As regras estão abaixo para consulta.</p>
-                 <div class="accordion-item">
-                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">Ver Regras do Jogo<span class="points">+1 PONTO!</span></button>
-                    <div class="accordion-content">
-                        <ol>
-                            <li>O grupo começa com uma única palavra.</li>
-                            <li>Todos sugerem qual deve ser a palavra seguinte mais provável.</li>
-                            <li>Votamos na melhor opção.</li>
-                            <li>A palavra vencedora é adicionada, criando um contexto mais rico para a escolha da palavra seguinte.</li>
-                        </ol>
+                <div class="activity-block">
+                    <h4>Atividade em Sala: Jogo da "Construção em Cadeia"</h4>
+                    <p>Vamos agora fazer uma pequena pausa da tecnologia para um jogo em grupo. O objetivo é simular, com o nosso próprio cérebro coletivo, o processo de pensamento da IA.</p>
+                    <button class="btn" onclick="toggleAccordion(this.nextElementSibling.querySelector('button'), 1)">Ver Regras do Jogo</button>
+                    <div class="accordion-item" style="margin-top:15px; border:none;">
+                        <button class="accordion-header" style="display:none;"></button>
+                        <div class="accordion-content">
+                            <ol>
+                                <li>O grupo começa com uma única palavra inicial.</li>
+                                <li>Todos sugerem qual deve ser a palavra seguinte mais provável.</li>
+                                <li>Votamos na melhor opção.</li>
+                                <li>A palavra vencedora é adicionada, criando um contexto mais rico para a escolha da palavra seguinte.</li>
+                            </ol>
+                        </div>
                     </div>
                 </div>
-                <button class="btn" onclick="revealContent('etapaC', this, 1)">➡️ AVANÇAR PARA A PRÓXIMA ETAPA</button>
+                <button class="btn" onclick="revealContent('etapaC', this, 1)">➡️ Continuar a exploração</button>
             </div>
         </div>
         
         <div id="etapaC" class="hidden-content">
-            <div class="lesson-block">
-                <h2>Etapa C: A Nossa Primeira Conversa</h2>
-                <p>Falar com uma IA é uma competência que se treina. O segredo está em fazer os pedidos certos (os "prompts"). Explore as abas abaixo para ver exemplos diferentes dos que foram discutidos na sessão, para expandir o seu repertório!</p>
-                <div class="accordion-item">
-                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">Prompts Para Iniciar a Conversa<span class="points">+1 PONTO!</span></button>
+             <div class="lesson-block">
+                <h2>A Nossa Primeira Conversa</h2>
+                 <div class="activity-block">
+                    <h4>Atividade em Sala: A Primeira Conversa em Grupo</h4>
+                    <p>Neste momento, os formadores irão guiar uma conversa em grupo com a IA, projetada para todos verem. É a nossa primeira interação, feita em equipa! O objetivo é construir um pedido ("prompt") em conjunto e analisar a resposta.</p>
+                </div>
+                <p style="margin-top:20px;">Falar com uma IA é uma competência que se treina. O segredo está em fazer os pedidos certos. Explore as abas abaixo para ver exemplos de prompts que pode usar, diferentes dos discutidos na sessão.</p>
+
+                 <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">Prompts Para Iniciar a Conversa<span class="points">+1</span></button>
                     <div class="accordion-content"><p>• "Explica-me o que é a fotossíntese como se fosses um chef de cozinha a descrever uma receita." <br> • "Dá-me 3 sugestões de livros de autores portugueses para quem gostou de 'Ensaio sobre a Cegueira'."</p></div>
                 </div>
                  <div class="accordion-item">
-                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">Prompts Para Desbloquear<span class="points">+1 PONTO!</span></button>
+                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">Prompts Para Desbloquear<span class="points">+1</span></button>
                     <div class="accordion-content"><p>• "A tua resposta é muito técnica. Podes reescrevê-la de forma mais simples e com uma metáfora?" <br> • "Gostei. Agora, assume a perspetiva de um crítico que discorda totalmente dessa ideia e apresenta 3 contra-argumentos."</p></div>
                 </div>
                  <div class="accordion-item">
-                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">Prompts Para Ser Criativo<span class="points">+1 PONTO!</span></button>
+                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">Prompts Para Ser Criativo<span class="points">+1</span></button>
                     <div class="accordion-content"><p>• "Escreve o guião para um trailer de filme sobre um gato que se torna presidente da junta de freguesia." <br> • "Cria o diário de um viajante no tempo que acabou de chegar a Lisboa em 2025 e está a ver um trotinete elétrica pela primeira vez."</p></div>
                 </div>
             </div>
         </div>
 
         <div class="lesson-block">
-             <h2>Etapa D e E: Explorar o Ambiente Digital</h2>
-             <p>Agora que já aquecemos os motores, está na hora de assumir o controlo. Clique nos números para explorar as 3 áreas principais da interface do Gemini.</p>
-             <div style="background-color: #f0f0f0; border: 2px dashed var(--light-gray); padding: 20px; text-align: center; margin-top: 20px; border-radius: 8px;">
-                <h3 style="margin-top:0;">Interface do Gemini (Simulação)</h3>
-                <button class="btn" onclick="alert('É aqui que a magia acontece! É a sua linha de comunicação direta com a IA. É onde escreve os seus pedidos, perguntas e desafios.'); addPoints(1)">[1] Área de Prompt<span class="points">+1</span></button>
-                <button class="btn" onclick="alert('Fica na barra lateral esquerda. Funciona como um arquivo. Todas as suas conversas ficam guardadas aqui, para que possa regressar a um tópico mais tarde.'); addPoints(1)">[2] Histórico<span class="points">+1</span></button>
-                <button class="btn" onclick="alert('Normalmente no canto, aqui pode gerir a sua conta, ver a sua atividade e aceder à ajuda e configurações da ferramenta.'); addPoints(1)">[3] Menu<span class="points">+1</span></button>
-             </div>
-             <h3 style="margin-top: 30px;">Desafio: A Fábrica de Prompts</h3>
+             <h2>Explorar o Ambiente Digital</h2>
+             <p>Agora que já aquecemos os motores, está na hora de assumir o controlo dos ecrãs. Vamos começar por explorar a ferramenta que iremos usar.</p>
+
+             <div class="activity-block">
+                <h4>Atividade Guiada: Acesso ao Gemini</h4>
+                <p>Siga agora as instruções dos formadores para aceder ao Gemini no seu computador. Abaixo, pode consultar um mapa interativo da interface para se familiarizar com as diferentes áreas.</p>
+                 <div style="background-color: #e9e9e9; border: 2px dashed var(--primary-color); padding: 20px; text-align: center; margin-top: 20px; border-radius: 8px;">
+                    <h4 style="margin-top:0;">Interface do Gemini (Mapa Interativo)</h4>
+                    <button class="btn" onclick="alert('É aqui que a magia acontece! É a sua linha de comunicação direta com a IA onde escreve os seus pedidos.'); addPoints(1)">[1] Área de Prompt<span class="points">+1</span></button>
+                    <button class="btn" onclick="alert('Fica na barra lateral esquerda. Funciona como um arquivo para que possa regressar a uma conversa mais tarde.'); addPoints(1)">[2] Histórico<span class="points">+1</span></button>
+                    <button class="btn" onclick="alert('Normalmente no canto, aqui pode gerir a sua conta, ver a sua atividade e aceder à ajuda e configurações.'); addPoints(1)">[3] Menu<span class="points">+1</span></button>
+                 </div>
+            </div>
+        </div>
+
+        <div class="lesson-block">
+            <h2>Desafio: "Fábrica de Prompts"</h2>
              <p>Está na hora de jogar! Aceda à nossa app "IA para Todos" para o primeiro desafio e comece a ganhar pontos a sério. A sua missão é explorar a Fábrica de Prompts e experimentar os pedidos mais criativos no Gemini.</p>
              <a href="https://bit.ly/pass10ia" target="_blank" class="btn btn-main" onclick="addPoints(5)">🏆 ACEDER À APP "IA PARA TODOS"<span class="points">+5 PONTOS!</span></a>
         </div>
         
         <div class="lesson-block">
-            <h2>Etapa F e G: A IA no Seu Dia a Dia</h2>
-            <p>A IA não serve apenas para tarefas complexas. O seu verdadeiro poder está em ajudar-nos com pequenas coisas do quotidiano. Clique nos cartões abaixo para descobrir algumas ideias.</p>
+            <h2>Aplicações da IA no Dia a Dia</h2>
+             <div class="activity-block">
+                <h4>Atividade em Sala: Chuva de Ideias</h4>
+                <p>Neste momento, vamos fazer uma pausa para uma discussão em grupo. Com base no que já vimos, para que mais acham que a IA pode ser útil? Partilhem as vossas ideias!</p>
+            </div>
+            <p style="margin-top:20px;">Para além das ideias discutidas, a IA pode ser uma poderosa aliada em muitas outras áreas. Clique nos cartões abaixo para descobrir algumas sugestões complementares.</p>
             <div class="flashcard-grid">
                 <div class="flashcard" onclick="alert('\"Tenho no frigorífico frango, pimentos e iogurte. Cria uma receita rápida e saudável para o jantar de hoje.\"'); addPoints(1);">Na Cozinha<span class="points">+1</span></div>
                 <div class="flashcard" onclick="alert('\"Recebi este email longo. Resume-o em 3 pontos principais e identifica qual é a ação que me está a ser pedida.\"'); addPoints(1);">No Trabalho<span class="points">+1</span></div>
@@ -285,10 +325,12 @@
         </div>
 
         <div class="lesson-block">
-            <h2>Etapa H: Nível Bónus - Os Superpoderes da IA</h2>
-            <p>As ferramentas de IA da Google têm uma vantagem: podem ligar-se a outros serviços como o Maps ou o Voos para dar respostas ainda mais poderosas. Veja estes exemplos do que é possível.</p>
-            <button class="btn" onclick="revealContent('bonusContent', this, 3)">➡️ VER EXEMPLOS AVANÇADOS</button>
+            <h2>Expandir o Horizonte</h2>
+            <p>O Gemini é a nossa ferramenta principal, mas o universo da IA é vasto. É útil saber que existem outros "assistentes" famosos como o ChatGPT (da OpenAI) e o Copilot (da Microsoft). O que aprende aqui, pode aplicar em qualquer um deles.</p>
+            <button class="btn" onclick="revealContent('bonusContent', this, 3)">➡️ Ver Nível Bónus: Superpoderes da IA</button>
             <div id="bonusContent" class="hidden-content" style="margin-top: 20px;">
+                <h3>Nível Bónus: Os Superpoderes do Gemini</h3>
+                <p>Por ser da Google, o Gemini consegue ligar-se a outros serviços como o Maps ou Voos para dar respostas ainda mais poderosas. Veja estes exemplos:</p>
                 <h4>Exemplo 1: Planeador de Viagens</h4>
                 <p><strong>Prompt:</strong> "Quero fazer uma escapadela romântica de 3 dias em Itália em outubro. O meu orçamento é de 700€. Sugere uma cidade, pesquisa voos a partir de Lisboa e encontra 3 opções de hotéis bem localizados."</p>
                 <h4>Exemplo 2: Guia Local</h4>
@@ -300,13 +342,13 @@
             <h2>Para Saber Mais: Recursos Adicionais</h2>
             <p>A sua viagem está apenas a começar. Se a curiosidade falou mais alto, aqui ficam alguns links para aprofundar os seus conhecimentos.</p>
             <ul>
-                <li><a href="#" onclick="addPoints(1)">[Artigo] O que são Realmente os Grandes Modelos de Linguagem? (Explicação Visual)<span class="points">+1</span></a></li>
-                <li><a href="#" onclick="addPoints(1)">[Ferramenta] Playground de Redes Neuronais da Google (Para os mais curiosos!)<span class="points">+1</span></a></li>
-                <li><a href="#" onclick="addPoints(1)">[Vídeo] Uma conversa sobre a Ética na Inteligência Artificial (TED Talk)<span class="points">+1</span></a></li>
+                <li><a href="https://www.youtube.com/watch?v=i_L6lK22a2E" target="_blank" onclick="addPoints(1)">[Vídeo] O que são Realmente as Redes Neuronais? (Visualização 3Blue1Brown)<span class="points">+1</span></a></li>
+                <li><a href="https://playground.tensorflow.org/" target="_blank" onclick="addPoints(1)">[Ferramenta] Playground de Redes Neuronais da Google (Para os mais curiosos!)<span class="points">+1</span></a></li>
+                <li><a href="https://www.ted.com/talks/safiya_umoja_noble_how_to_make_ai_more_human" target="_blank" onclick="addPoints(1)">[Vídeo] Uma conversa sobre a Ética na Inteligência Artificial (TED Talk)<span class="points">+1</span></a></li>
             </ul>
         </div>
         
-        <div class="lesson-block" style="background-color: #f0f8ff; text-align: center;">
+        <div class="lesson-block" style="background-color: #e8f5e9; text-align: center;">
             <button class="btn btn-main" onclick="alert('Lição 1 Concluída! Ganhou +10 Pontos!'); addPoints(10);">✅ MARCAR LIÇÃO 1 COMO CONCLUÍDA<span class="points">+10 PONTOS!</span></button>
         </div>
 
@@ -319,7 +361,6 @@
         function addPoints(points) {
             score += points;
             scoreElement.innerText = `Pontos: ${score}`;
-            // Animação simples
             scoreElement.style.transform = 'scale(1.2)';
             setTimeout(() => {
                 scoreElement.style.transform = 'scale(1)';
@@ -339,13 +380,18 @@
 
         function toggleAccordion(header, points) {
             const content = header.nextElementSibling;
+            // Only add points the first time it's opened
+            if (!header.classList.contains('opened')) {
+                 addPoints(points);
+                 header.classList.add('opened');
+            }
+            
             header.classList.toggle('active');
 
             if (content.style.maxHeight) {
                 content.style.maxHeight = null;
                 content.style.padding = "0 15px";
             } else {
-                addPoints(points);
                 content.style.padding = "15px";
                 content.style.maxHeight = content.scrollHeight + "px";
             }
