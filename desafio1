@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sessão 1: Descobrir a IA</title>
+    <style>
+        /* --- Estilo Geral (Simulando Rise 360) --- */
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+        :root {
+            --primary-color: #2D63A2;
+            --secondary-color: #00B4D8;
+            --background-color: #f5f5f5;
+            --text-color: #333;
+            --light-gray: #e9e9e9;
+            --white: #ffffff;
+            --points-color: #4CAF50;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .rise-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: var(--white);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .lesson-block {
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .lesson-block:last-child {
+            border-bottom: none;
+        }
+        
+        h1, h2, h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        h1 { font-size: 2.2em; text-align: center; }
+        h2 { font-size: 1.8em; border-bottom: 2px solid var(--secondary-color); padding-bottom: 10px; margin-bottom: 20px;}
+        h3 { font-size: 1.4em; }
+
+        .intro-block {
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-align: center;
+            padding: 40px;
+        }
+        .intro-block h1 { color: var(--white); }
+        .intro-block p { font-size: 1.1em; opacity: 0.9; }
+
+        .points {
+            display: inline-block;
+            background-color: var(--points-color);
+            color: var(--white);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 700;
+            margin-left: 5px;
+        }
+
+        /* --- Botões --- */
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: var(--white);
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 700;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background-color: #0096B3;
+            transform: translateY(-2px);
+        }
+        .btn-main {
+            width: calc(100% - 50px);
+            background-color: var(--primary-color);
+        }
+        .btn-main:hover { background-color: #234E7F; }
+
+        /* --- Elementos Interativos --- */
+        .hidden-content { display: none; }
+        
+        /* Acordeão */
+        .accordion-item {
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        .accordion-header {
+            background-color: #f9f9f9;
+            width: 100%;
+            padding: 15px;
+            text-align: left;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        .accordion-header:hover { background-color: #f0f0f0; }
+        .accordion-header::after {
+            content: '▼';
+            font-size: 0.8em;
+        }
+        .accordion-header.active::after {
+            content: '▲';
+        }
+        .accordion-content {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        }
+        
+        /* Flashcards */
+        .flashcard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .flashcard {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        .flashcard:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+        
+        /* --- Pontuação --- */
+        #score-counter {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1.2em;
+            font-weight: 700;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="score-counter">Pontos: 0</div>
+
+    <div class="rise-container">
+        <div class="lesson-block intro-block">
+            <p>LIÇÃO 1 DE 5</p>
+            <h1>Bem-vindos à Descoberta da Inteligência Artificial!</h1>
+            <p>Olá! Está prestes a iniciar uma viagem fascinante pelo mundo da IA. Nesta primeira lição, vamos desmistificar a "magia" e dar os primeiros passos para usar esta poderosa ferramenta no seu dia a dia.</p>
+        </div>
+
+        <div class="lesson-block">
+            <h2>Etapa A: O Nosso Ponto de Partida</h2>
+            <p>No início da nossa sessão, definimos juntos o rumo da nossa viagem. Votámos nos temas que mais nos interessam e concordámos em explorar este novo mundo com curiosidade e espírito de equipa. Esta página será o seu diário de bordo digital para acompanhar cada passo!</p>
+            <button class="btn" onclick="revealContent('etapaB', this, 1)">➡️ AVANÇAR</button>
+        </div>
+
+        <div id="etapaB" class="hidden-content">
+            <div class="lesson-block">
+                <h2>Etapa B: Desmistificar a "Magia" da IA</h2>
+                <p>A Inteligência Artificial pode parecer algo saído de um filme, mas a sua base é surpreendentemente lógica. Vamos desvendá-la juntos.</p>
+                
+                <h3>1. Veja como os especialistas explicam</h3>
+                <p>O vídeo seguinte apresenta os conceitos fundamentais diretamente dos criadores de algumas das mais famosas IAs.</p>
+                <a href="https://www.youtube.com/watch?v=X-AWdfSFCHQ" target="_blank" class="btn" onclick="addPoints(2)">▶️ VER O VÍDEO<span class="points">+2 PONTOS!</span></a>
+
+                <h3 style="margin-top: 30px;">2. Os 3 Conceitos-Chave</h3>
+                <p>No vídeo, foram mencionados alguns termos importantes. Clique em cada conceito abaixo para o desvendar.</p>
+                
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">Grandes Modelos de Linguagem (LLMs)<span class="points">+1 PONTO!</span></button>
+                    <div class="accordion-content"><p>Pense num LLM como uma biblioteca gigantesca que não só leu todos os livros, artigos da Wikipédia, notícias e conversas da Internet, mas também aprendeu a forma como as palavras se ligam umas às outras. Não é apenas uma base de dados; é um mestre dos padrões da linguagem.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">O Poder das Probabilidades<span class="points">+1 PONTO!</span></button>
+                    <div class="accordion-content"><p>A IA não "sabe" a resposta. Ela calcula. Quando lhe damos uma frase, ela prevê a palavra seguinte mais provável com base nos triliões de exemplos que estudou. Se dissermos "O céu é...", a probabilidade da palavra "azul" ser a seguinte é altíssima. É um jogo de adivinhação estatística a uma escala massiva.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">Tokens e Treino Humano<span class="points">+1 PONTO!</span></button>
+                    <div class="accordion-content"><p>A IA não vê apenas letras, mas "bocados" de palavras chamados **tokens** (ex: a palavra "rapidamente" pode ser vista como "rapida" + "mente"). Para além disso, para garantir que a IA é segura e útil, centenas de pessoas trabalham para a treinar e afinar, ensinando-a a evitar respostas tóxicas ou perigosas.</p></div>
+                </div>
+
+                <h3 style="margin-top: 30px;">3. Simular o Raciocínio da IA</h3>
+                <p>Agora, vamos fazer uma pequena pausa para um jogo em grupo: o "Jogo da Construção em Cadeia". Este jogo vai ajudar-nos a simular o processo de pensamento da IA. As regras estão abaixo para consulta.</p>
+                 <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">Ver Regras do Jogo<span class="points">+1 PONTO!</span></button>
+                    <div class="accordion-content">
+                        <ol>
+                            <li>O grupo começa com uma única palavra.</li>
+                            <li>Todos sugerem qual deve ser a palavra seguinte mais provável.</li>
+                            <li>Votamos na melhor opção.</li>
+                            <li>A palavra vencedora é adicionada, criando um contexto mais rico para a escolha da palavra seguinte.</li>
+                        </ol>
+                    </div>
+                </div>
+                <button class="btn" onclick="revealContent('etapaC', this, 1)">➡️ AVANÇAR PARA A PRÓXIMA ETAPA</button>
+            </div>
+        </div>
+        
+        <div id="etapaC" class="hidden-content">
+            <div class="lesson-block">
+                <h2>Etapa C: A Nossa Primeira Conversa</h2>
+                <p>Falar com uma IA é uma competência que se treina. O segredo está em fazer os pedidos certos (os "prompts"). Explore as abas abaixo para ver exemplos diferentes dos que foram discutidos na sessão, para expandir o seu repertório!</p>
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">Prompts Para Iniciar a Conversa<span class="points">+1 PONTO!</span></button>
+                    <div class="accordion-content"><p>• "Explica-me o que é a fotossíntese como se fosses um chef de cozinha a descrever uma receita." <br> • "Dá-me 3 sugestões de livros de autores portugueses para quem gostou de 'Ensaio sobre a Cegueira'."</p></div>
+                </div>
+                 <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">Prompts Para Desbloquear<span class="points">+1 PONTO!</span></button>
+                    <div class="accordion-content"><p>• "A tua resposta é muito técnica. Podes reescrevê-la de forma mais simples e com uma metáfora?" <br> • "Gostei. Agora, assume a perspetiva de um crítico que discorda totalmente dessa ideia e apresenta 3 contra-argumentos."</p></div>
+                </div>
+                 <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">Prompts Para Ser Criativo<span class="points">+1 PONTO!</span></button>
+                    <div class="accordion-content"><p>• "Escreve o guião para um trailer de filme sobre um gato que se torna presidente da junta de freguesia." <br> • "Cria o diário de um viajante no tempo que acabou de chegar a Lisboa em 2025 e está a ver um trotinete elétrica pela primeira vez."</p></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-block">
+             <h2>Etapa D e E: Explorar o Ambiente Digital</h2>
+             <p>Agora que já aquecemos os motores, está na hora de assumir o controlo. Clique nos números para explorar as 3 áreas principais da interface do Gemini.</p>
+             <div style="background-color: #f0f0f0; border: 2px dashed var(--light-gray); padding: 20px; text-align: center; margin-top: 20px; border-radius: 8px;">
+                <h3 style="margin-top:0;">Interface do Gemini (Simulação)</h3>
+                <button class="btn" onclick="alert('É aqui que a magia acontece! É a sua linha de comunicação direta com a IA. É onde escreve os seus pedidos, perguntas e desafios.'); addPoints(1)">[1] Área de Prompt<span class="points">+1</span></button>
+                <button class="btn" onclick="alert('Fica na barra lateral esquerda. Funciona como um arquivo. Todas as suas conversas ficam guardadas aqui, para que possa regressar a um tópico mais tarde.'); addPoints(1)">[2] Histórico<span class="points">+1</span></button>
+                <button class="btn" onclick="alert('Normalmente no canto, aqui pode gerir a sua conta, ver a sua atividade e aceder à ajuda e configurações da ferramenta.'); addPoints(1)">[3] Menu<span class="points">+1</span></button>
+             </div>
+             <h3 style="margin-top: 30px;">Desafio: A Fábrica de Prompts</h3>
+             <p>Está na hora de jogar! Aceda à nossa app "IA para Todos" para o primeiro desafio e comece a ganhar pontos a sério. A sua missão é explorar a Fábrica de Prompts e experimentar os pedidos mais criativos no Gemini.</p>
+             <a href="https://bit.ly/pass10ia" target="_blank" class="btn btn-main" onclick="addPoints(5)">🏆 ACEDER À APP "IA PARA TODOS"<span class="points">+5 PONTOS!</span></a>
+        </div>
+        
+        <div class="lesson-block">
+            <h2>Etapa F e G: A IA no Seu Dia a Dia</h2>
+            <p>A IA não serve apenas para tarefas complexas. O seu verdadeiro poder está em ajudar-nos com pequenas coisas do quotidiano. Clique nos cartões abaixo para descobrir algumas ideias.</p>
+            <div class="flashcard-grid">
+                <div class="flashcard" onclick="alert('\"Tenho no frigorífico frango, pimentos e iogurte. Cria uma receita rápida e saudável para o jantar de hoje.\"'); addPoints(1);">Na Cozinha<span class="points">+1</span></div>
+                <div class="flashcard" onclick="alert('\"Recebi este email longo. Resume-o em 3 pontos principais e identifica qual é a ação que me está a ser pedida.\"'); addPoints(1);">No Trabalho<span class="points">+1</span></div>
+                <div class="flashcard" onclick="alert('\"Ajuda-me a escrever uma mensagem de SMS para um amigo que está a passar por um momento difícil, mostrando o meu apoio sem ser invasivo.\"'); addPoints(1);">Na Vida Pessoal<span class="points">+1</span></div>
+                <div class="flashcard" onclick="alert('\"Vou começar a aprender a tocar guitarra. Cria um plano de prática de 15 minutos por dia para a primeira semana de um iniciante absoluto.\"'); addPoints(1);">Na Aprendizagem<span class="points">+1</span></div>
+            </div>
+        </div>
+
+        <div class="lesson-block">
+            <h2>Etapa H: Nível Bónus - Os Superpoderes da IA</h2>
+            <p>As ferramentas de IA da Google têm uma vantagem: podem ligar-se a outros serviços como o Maps ou o Voos para dar respostas ainda mais poderosas. Veja estes exemplos do que é possível.</p>
+            <button class="btn" onclick="revealContent('bonusContent', this, 3)">➡️ VER EXEMPLOS AVANÇADOS</button>
+            <div id="bonusContent" class="hidden-content" style="margin-top: 20px;">
+                <h4>Exemplo 1: Planeador de Viagens</h4>
+                <p><strong>Prompt:</strong> "Quero fazer uma escapadela romântica de 3 dias em Itália em outubro. O meu orçamento é de 700€. Sugere uma cidade, pesquisa voos a partir de Lisboa e encontra 3 opções de hotéis bem localizados."</p>
+                <h4>Exemplo 2: Guia Local</h4>
+                <p><strong>Prompt:</strong> "Estou em Lisboa, perto do Marquês de Pombal. Sugere um percurso a pé de 1 hora que passe por locais interessantes e recomenda um bom sítio para comer um pastel de nata no final."</p>
+            </div>
+        </div>
+
+        <div class="lesson-block">
+            <h2>Para Saber Mais: Recursos Adicionais</h2>
+            <p>A sua viagem está apenas a começar. Se a curiosidade falou mais alto, aqui ficam alguns links para aprofundar os seus conhecimentos.</p>
+            <ul>
+                <li><a href="#" onclick="addPoints(1)">[Artigo] O que são Realmente os Grandes Modelos de Linguagem? (Explicação Visual)<span class="points">+1</span></a></li>
+                <li><a href="#" onclick="addPoints(1)">[Ferramenta] Playground de Redes Neuronais da Google (Para os mais curiosos!)<span class="points">+1</span></a></li>
+                <li><a href="#" onclick="addPoints(1)">[Vídeo] Uma conversa sobre a Ética na Inteligência Artificial (TED Talk)<span class="points">+1</span></a></li>
+            </ul>
+        </div>
+        
+        <div class="lesson-block" style="background-color: #f0f8ff; text-align: center;">
+            <button class="btn btn-main" onclick="alert('Lição 1 Concluída! Ganhou +10 Pontos!'); addPoints(10);">✅ MARCAR LIÇÃO 1 COMO CONCLUÍDA<span class="points">+10 PONTOS!</span></button>
+        </div>
+
+    </div>
+
+    <script>
+        let score = 0;
+        const scoreElement = document.getElementById('score-counter');
+
+        function addPoints(points) {
+            score += points;
+            scoreElement.innerText = `Pontos: ${score}`;
+            // Animação simples
+            scoreElement.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                scoreElement.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function revealContent(elementId, button, points) {
+            const content = document.getElementById(elementId);
+            if (content) {
+                content.style.display = 'block';
+            }
+            if (button) {
+                button.style.display = 'none';
+            }
+            addPoints(points);
+        }
+
+        function toggleAccordion(header, points) {
+            const content = header.nextElementSibling;
+            header.classList.toggle('active');
+
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+                content.style.padding = "0 15px";
+            } else {
+                addPoints(points);
+                content.style.padding = "15px";
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        }
+    </script>
+
+</body>
+</html>
