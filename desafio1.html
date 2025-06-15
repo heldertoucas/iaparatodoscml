@@ -221,41 +221,40 @@
         <div id="etapaB" class="hidden-content">
             <div class="lesson-block">
                 <h2>Desmistificar a "Magia" da IA</h2>
-                <p>A Inteligência Artificial pode parecer complexa, mas a sua base é surpreendentemente lógica. Vamos desvendá-la juntos.</p>
+                <p>Para começar a responder a uma das vossas perguntas - 'Como funciona a IA?' - vamos ver um vídeo muito curto onde os próprios criadores de algumas das mais famosas IAs nos explicam a ideia principal por detrás da 'magia'.</p>
                 
-                <h3>1. Como os especialistas explicam</h3>
-                <p>Para começar, vamos assistir a um pequeno vídeo onde os próprios criadores de algumas das mais famosas IAs nos explicam os conceitos fundamentais.</p>
                 <a href="https://www.youtube.com/watch?v=X-AWdfSFCHQ" target="_blank" class="btn" onclick="addPoints(2)">▶️ VER O VÍDEO<span class="points">+2 PONTOS!</span></a>
 
-                <h3 style="margin-top: 30px;">2. Os Conceitos-Chave da IA Generativa</h3>
-                <p>O vídeo introduziu alguns termos importantes. Clique em cada conceito abaixo para o desvendar e perceber a ideia principal.</p>
+                <h3 style="margin-top: 30px;">Análise ao Vídeo: Os Conceitos Essenciais</h3>
+                <p>Como vimos com a Mira Murati (OpenAI) e o Cristobal Valenzuela (Runway), a IA não é realmente mágica. Baseia-se em conceitos de matemática e estatística. Clique abaixo para explorar as ideias principais.</p>
                 
                 <div class="accordion-item">
-                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">Grandes Modelos de Linguagem (LLMs)<span class="points">+1 PONTO!</span></button>
-                    <div class="accordion-content"><p>Pense num LLM como uma biblioteca gigantesca que não só leu todos os livros, artigos da Wikipédia, notícias e conversas da Internet, mas também aprendeu a forma como as palavras se ligam umas às outras. Não é apenas uma base de dados; é um mestre dos padrões da linguagem.</p></div>
+                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">O que são 'Grandes Modelos de Linguagem' (LLMs)?<span class="points">+1</span></button>
+                    <div class="accordion-content"><p>São o "cérebro" da IA generativa. Pense neles como sistemas que foram treinados com uma quantidade imensa de informação (quase toda a Internet) e que aprenderam os padrões e as relações entre as palavras e as ideias.</p></div>
                 </div>
                 <div class="accordion-item">
-                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">O Poder das Probabilidades<span class="points">+1 PONTO!</span></button>
-                    <div class="accordion-content"><p>A IA não "sabe" a resposta. Ela calcula. Quando lhe damos uma frase, ela prevê a palavra seguinte mais provável com base nos triliões de exemplos que estudou. Se dissermos "O céu é...", a probabilidade da palavra "azul" ser a seguinte é altíssima. É um jogo de adivinhação estatística a uma escala massiva.</p></div>
+                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">Como funciona a "Previsão de Probabilidades"?<span class="points">+1</span></button>
+                    <div class="accordion-content"><p>Este é o conceito mais importante. A IA não "sabe" a resposta, ela prevê. O vídeo deu o exemplo de treinar uma IA com as peças de Shakespeare: ela aprende qual a letra ou palavra mais provável a seguir a outra. É um cálculo de probabilidades em grande escala. A analogia dos formadores é perfeita: se dizemos "pão com...", a IA calcula que "manteiga" é uma resposta mais provável do que "parafusos".</p></div>
                 </div>
                 <div class="accordion-item">
-                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">Tokens e Treino Humano<span class="points">+1 PONTO!</span></button>
-                    <div class="accordion-content"><p>A IA não vê apenas letras, mas "bocados" de palavras chamados **tokens** (ex: a palavra "rapidamente" pode ser vista como "rapida" + "mente"). Para além disso, para garantir que a IA é segura e útil, centenas de pessoas trabalham para a treinar e afinar, ensinando-a a evitar respostas tóxicas ou perigosas.</p></div>
+                    <button class="accordion-header" onclick="toggleAccordion(this, 1)">O que são 'Tokens' e 'Afinação Humana'?<span class="points">+1</span></button>
+                    <div class="accordion-content"><p>A IA não prevê apenas letras, mas sim **'tokens'**, que são palavras ou bocados de palavras, o que torna o processo mais eficiente. Além disso, para que a IA seja segura e útil, precisa de muita **afinação humana**: pessoas que reveem as respostas, corrigem erros e ensinam a IA a não gerar conteúdo perigoso ou falso.</p></div>
                 </div>
 
                 <div class="activity-block">
                     <h4>Atividade em Sala: Jogo da "Construção em Cadeia"</h4>
-                    <p>Vamos agora fazer uma pequena pausa da tecnologia para um jogo em grupo. O objetivo é simular, com o nosso próprio cérebro coletivo, o processo de pensamento da IA.</p>
+                    <p>"Agora vamos nós ser a IA por 5 minutos!"<br>Neste momento, vamos fazer uma pausa dos ecrãs para o 'Jogo da Construção em Cadeia'. O objetivo é simular o raciocínio da IA, construindo uma frase em conjunto, palavra por palavra.</p>
                     <button class="btn" onclick="toggleAccordion(this.nextElementSibling.querySelector('button'), 1)">Ver Regras do Jogo</button>
                     <div class="accordion-item" style="margin-top:15px; border:none;">
                         <button class="accordion-header" style="display:none;"></button>
                         <div class="accordion-content">
                             <ol>
-                                <li>O grupo começa com uma única palavra inicial.</li>
-                                <li>Todos sugerem qual deve ser a palavra seguinte mais provável.</li>
-                                <li>Votamos na melhor opção.</li>
-                                <li>A palavra vencedora é adicionada, criando um contexto mais rico para a escolha da palavra seguinte.</li>
+                                <li>Um dos formadores modera e o outro escreve no quadro.</li>
+                                <li>O grupo sugere uma palavra inicial.</li>
+                                <li>Para cada palavra seguinte, o grupo sugere várias opções e vota na mais provável.</li>
+                                <li>A palavra vencedora é adicionada à frase, e o processo repete-se.</li>
                             </ol>
+                            <p><strong>A Lição:</strong> Viram como a escolha de cada palavra dependeu de todo o contexto anterior? A IA faz precisamente o mesmo para gerar respostas com lógica!</p>
                         </div>
                     </div>
                 </div>
@@ -342,7 +341,7 @@
             <h2>Para Saber Mais: Recursos Adicionais</h2>
             <p>A sua viagem está apenas a começar. Se a curiosidade falou mais alto, aqui ficam alguns links para aprofundar os seus conhecimentos.</p>
             <ul>
-                <li><a href="https://www.youtube.com/watch?v=i_L6lK22a2E" target="_blank" onclick="addPoints(1)">[Vídeo] O que são Realmente as Redes Neuronais? (Visualização 3Blue1Brown)<span class="points">+1</span></a></li>
+                <li><a href="https://www.youtube.com/watch?v=aircAruvnKk" target="_blank" onclick="addPoints(1)">[Vídeo] O que são Realmente as Redes Neuronais? (Visualização 3Blue1Brown)<span class="points">+1</span></a></li>
                 <li><a href="https://playground.tensorflow.org/" target="_blank" onclick="addPoints(1)">[Ferramenta] Playground de Redes Neuronais da Google (Para os mais curiosos!)<span class="points">+1</span></a></li>
                 <li><a href="https://www.ted.com/talks/safiya_umoja_noble_how_to_make_ai_more_human" target="_blank" onclick="addPoints(1)">[Vídeo] Uma conversa sobre a Ética na Inteligência Artificial (TED Talk)<span class="points">+1</span></a></li>
             </ul>
