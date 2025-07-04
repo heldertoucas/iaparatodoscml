@@ -289,7 +289,7 @@
                     <div className="max-w-4xl mx-auto space-y-12">
                         {items.map((item, index) => (
                             <AnimatedSection key={item.title} tag="div" className="flex flex-col sm:flex-row items-center text-center sm:text-left gap-8" delay={`${index * 0.15}s`}>
-                                <div className="w-32 h-32 sm:w-40 sm:h-40 flex-shrink-0 flex items-center justify-center">
+                                <div className="w-40 h-40 sm:w-56 sm:h-56 flex-shrink-0 flex items-center justify-center">
                                    <img src={item.iconSrc} alt={item.title} className="w-full h-full object-contain" />
                                 </div>
                                 <div>
@@ -366,7 +366,7 @@
         );
     };
     
-    // --- LearnSection Component ---
+    // --- LearnSection Component (UPDATED label position) ---
     const LearnSection = ({ onShowResources }) => {
         const resources = [
             { icon: "book", title: "Curso rápido ✨Descobrir a IA", level: "Iniciante", levelColorClass: "bg-green-100 text-green-800", description: "Comece a sua jornada com conceitos fundamentais explicados em linguagem simples." },
@@ -390,11 +390,9 @@
                             <AnimatedSection key={resource.title} tag="div" className="bg-white p-8 rounded-xl shadow-md border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 h-full" delay={`${index * 0.1}s`}>
                                 <div className="flex items-start">
                                     <div className="bg-blue-50 p-4 rounded-lg mr-5"><Icon name={resource.icon} className="h-8 w-8 text-blue-600" /></div>
-                                    <div>
-                                        <div className="flex items-center gap-3 mb-2">
-                                            <h3 className="text-xl font-semibold">{resource.title}</h3>
-                                            <span className={`text-xs px-2 py-1 rounded-full ${resource.levelColorClass}`}>{resource.level}</span>
-                                        </div>
+                                    <div className="flex-grow">
+                                        <h3 className="text-xl font-semibold">{resource.title}</h3>
+                                        <span className={`inline-block mt-2 mb-2 text-xs px-2 py-1 rounded-full ${resource.levelColorClass}`}>{resource.level}</span>
                                         <p className="text-gray-600">{resource.description}</p>
                                         <a href="#" onClick={handleExploreClick} className="inline-block mt-4 text-blue-600 font-medium hover:text-blue-700">Explorar Recursos →</a>
                                     </div>
