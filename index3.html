@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso: Descobrir a IA Microsoft Copilot</title>
+    <style>
+        /* --- GERAL E TIPOGRAFIA (Estilo Rise 360) --- */
+        @import url('[https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:wght@400;700&display=swap](https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:wght@400;700&display=swap)');
+
+        :root {
+            --cor-primaria: #0078D4; /* Azul Microsoft */
+            --cor-texto: #333333;
+            --cor-fundo: #FFFFFF;
+            --cor-fundo-bloco: #F8F8F8;
+            --cor-sucesso: #107C10;
+            --cor-erro: #D83B01;
+            --cor-borda: #EAEAEA;
+            --sombra-bloco: 0 2px 5px rgba(0,0,0,0.05);
+            --font-cabecalho: 'Merriweather', serif;
+            --font-corpo: 'Lato', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-corpo);
+            line-height: 1.7;
+            color: var(--cor-texto);
+            background-color: var(--cor-fundo-bloco);
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-cabecalho);
+            color: var(--cor-primaria);
+            line-height: 1.3;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--cor-primaria);
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-top: 50px;
+            border-bottom: 1px solid var(--cor-borda);
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            color: var(--cor-texto);
+        }
+
+        p, li {
+            font-size: 1.1rem;
+        }
+
+        strong {
+            color: var(--cor-primaria);
+        }
+
+        /* --- ESTRUTURA DOS BLOCOS --- */
+       .course-section {
+            background-color: var(--cor-fundo);
+            padding: 30px 40px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: var(--sombra-bloco);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            display: none; /* Escondido por defeito */
+        }
+
+       .course-section.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- BOTÃO CONTINUAR --- */
+       .continue-btn {
+            display: block;
+            margin: 30px auto 0;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--cor-fundo);
+            background-color: var(--cor-primaria);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+       .continue-btn:hover:not(:disabled) {
+            background-color: #005A9E;
+            transform: translateY(-2px);
+        }
+
+       .continue-btn:disabled {
+            background-color: #A0A0A0;
+            cursor: not-allowed;
+        }
+
+        /* --- CAIXA DE DESTAQUE --- */
+       .callout-box {
+            background-color: #E7F3FF;
+            border-left: 5px solid var(--cor-primaria);
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 5px;
+        }
+
+        /* --- QUIZ DE VERIFICAÇÃO --- */
+       .knowledge-check.options button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 10px;
+            text-align: left;
+            font-size: 1rem;
+            border: 2px solid var(--cor-borda);
+            border-radius: 5px;
+            background-color: var(--cor-fundo);
+            cursor: pointer;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+       .knowledge-check.options button:hover {
+            border-color: var(--cor-primaria);
+        }
+
+       .knowledge-check.options button.correct {
+            background-color: #DFF6DD;
+            border-color: var(--cor-sucesso);
+            font-weight: bold;
+        }
+
+       .knowledge-check.options button.incorrect {
+            background-color: #FDE7E9;
+            border-color: var(--cor-erro);
+        }
+
+       .knowledge-check.options button:disabled {
+            cursor: not-allowed;
+        }
+
+       .feedback {
+            margin-top: 15px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 5px;
+        }
+       .feedback.correct { color: var(--cor-sucesso); }
+       .feedback.incorrect { color: var(--cor-erro); }
+
+        /* --- FLASHCARDS --- */
+       .flashcard-area {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+       .flashcard {
+            width: 300px;
+            height: 220px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+       .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.7s;
+            transform-style: preserve-3d;
+            box-shadow: var(--sombra-bloco);
+            border-radius: 8px;
+        }
+
+       .flashcard.is-flipped.card-inner {
+            transform: rotateY(180deg);
+        }
+
+       .card-front,.card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+       .card-front {
+            background-color: var(--cor-fundo);
+            border: 1px solid var(--cor-borda);
+        }
+
+       .card-back {
+            background-color: var(--cor-primaria);
+            color: white;
+            transform: rotateY(180deg);
+        }
+        
+       .card-back p {
+            font-size: 1rem;
+        }
+
+        /* --- PLACEHOLDER DE VÍDEO --- */
+       .video-placeholder {
+            text-align: center;
+            border: 2px dashed #ccc;
+            padding: 50px 20px;
+            background-color: #f9f9f9;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <h1>Descobrir a IA Microsoft Copilot</h1>
+
+        <section id="section-0" class="course-section">
+            <h2>Bem-vindo(a) ao seu Novo Parceiro Digital!</h2>
+            <p>Olá! Bem-vindo(a) ao curso "Descobrir a IA Microsoft Copilot". A missão do nosso departamento é capacitar pessoas através da aprendizagem, e num mundo em rápida transformação digital, as nossas ferramentas também devem evoluir.</p>
+            <p>O Microsoft Copilot é mais do que uma simples ferramenta de produtividade; é um novo parceiro para cada membro da nossa equipa. Para os nossos colegas administrativos e coordenadores de formação, é uma forma de recuperar horas de tarefas logísticas. Para os nossos designers instrucionais e formadores, é um colaborador criativo que pode elevar a qualidade e inovação dos nossos materiais.</p>
+            <p>Nesta lição, vamos explorar como pode integrar este assistente inteligente no seu dia a dia para poupar tempo, aumentar a criatividade e, em última análise, entregar formações com ainda mais impacto para os colaboradores e cidadãos de Lisboa.</p>
+            
+            <h3>Objetivos de Aprendizagem</h3>
+            <ul>
+                <li>Compreender o que é o Microsoft Copilot da CML e as suas garantias de segurança.</li>
+                <li>Aplicar o framework GCSE para criar "prompts" (instruções) eficazes.</li>
+                <li>Utilizar o Copilot para realizar tarefas práticas do seu dia a dia.</li>
+                <li>Criar um plano de aprendizagem pessoal com a ajuda do Copilot.</li>
+            </ul>
+            <button class="continue-btn" data-next="section-1">Começar</button>
+        </section>
+
+        <section id="section-1" class="course-section">
+            <h2>Módulo 1: Fundamentos de Confiança – O Copilot da CML</h2>
+            <h3>O que é o Copilot que estamos a usar?</h3>
+            <p>A versão do Copilot disponível para nós na CML é uma experiência de chat com IA, segura e baseada na web. Quando acede com a sua conta de trabalho, verá um <strong>escudo verde</strong> com a indicação "Protegido". Isto significa que a Proteção de Dados Empresariais está ativa.</p>
+            
+            <h3>A Promessa de Segurança: Os Seus Dados são Seus</h3>
+            <p>Este é o ponto mais importante para uma instituição pública como a nossa. A "Proteção de Dados Empresariais" garante que:</p>
+            <ul>
+                <li><strong>As suas conversas NÃO são usadas para treinar o modelo de IA.</strong> As suas instruções, os ficheiros que carrega e as respostas que recebe são confidenciais. A informação interna da CML nunca será exposta a outras organizações.</li>
+                <li><strong>Tudo é processado dentro da fronteira segura do Microsoft 365,</strong> cumprindo as mesmas regras de privacidade e o RGPD que protegem os nossos emails e documentos.</li>
+            </ul>
+
+            <div class="callout-box">
+                <h3>Gerir Expectativas: Copilot vs. Copilot para Microsoft 365</h3>
+                <p>É importante saber que o nosso Copilot (gratuito, com proteção de dados) é diferente da versão paga "Copilot para Microsoft 365". A principal diferença é que o nosso Copilot <strong>não acede automaticamente</strong> aos seus emails ou ficheiros. Para trabalhar com informação interna, tem de a fornecer explicitamente na janela de chat.</p>
+            </div>
+
+            <div class="knowledge-check" id="quiz-1">
+                <h3>Verificação de Conhecimento Rápida!</h3>
+                <p>Um colega diz: "Tenho receio de usar o Copilot porque não quero que as minhas perguntas sobre projetos da CML fiquem guardadas nos servidores da Microsoft para toda a gente ver."</p>
+                <p><strong>Qual das seguintes respostas é a mais correta?</strong></p>
+                <div class="options">
+                    <button data-correct="false">Ele tem razão, é melhor não usar para temas sensíveis.</button>
+                    <button data-correct="true">Ele não precisa de se preocupar, desde que veja o escudo verde de "Protegido", as suas conversas são confidenciais e não treinam o modelo de IA.</button>
+                    <button data-correct="false">Ele só pode usar o Copilot para pesquisar informação pública na internet.</button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            <button class="continue-btn" data-next="section-2" disabled>Continuar</button>
+        </section>
+
+        <section id="section-2" class="course-section">
+            <h2>Módulo 2: A Arte do "Prompt" – Como Conversar com a IA</h2>
+            <p>A competência mais importante para usar o Copilot é dominar a arte do "prompt" (a instrução que lhe dá). Não é como uma pesquisa no Google; é uma conversa.</p>
+            
+            <h3>Anatomia de um Prompt Perfeito: O Framework GCSE</h3>
+            <p>Para obter os melhores resultados, uma boa instrução deve conter quatro elementos. Lembre-se do acrónimo <strong>GCSE</strong>:</p>
+            <ul>
+                <li><strong>G (Goal / Objetivo):</strong> Seja claro e específico sobre o que quer.</li>
+                <li><strong>C (Context / Contexto):</strong> Diga à IA que "papel" deve assumir.</li>
+                <li><strong>S (Source / Fonte):</strong> Diga à IA onde obter a informação.</li>
+                <li><strong>E (Expectation / Expectativa):</strong> Defina o formato da resposta.</li>
+            </ul>
+
+            <div class="callout-box">
+                <h3>Atividade Interativa: Flashcards de Prompts</h3>
+                <p>Vire os cartões para ver a diferença entre um prompt básico e um prompt eficaz usando o framework GCSE. <strong>Clique em ambos os cartões para continuar.</strong></p>
+            </div>
+            
+            <div class="flashcard-area" id="flashcard-activity">
+                <div class="flashcard">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <p><strong>Prompt Básico:</strong><br>"Cria um cenário de role-play."</p>
+                        </div>
+                        <div class="card-back">
+                            <p><strong>Prompt GCSE:</strong><br>"(G) Cria um cenário detalhado de role-play para uma formação sobre 'Gestão de Conversas Difíceis'. (C) O cenário é entre um chefe de equipa e um colaborador com desempenho abaixo do esperado. (S) Fornece um contexto para ambas as personagens e pontos de discussão. (E) Apresenta o cenário em secções claras."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flashcard">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <p><strong>Prompt Básico:</strong><br>"Faz uma apresentação sobre a nossa estratégia."</p>
+                        </div>
+                        <div class="card-back">
+                            <p><strong>Prompt GCSE:</strong><br>"(G) Cria uma apresentação de 10 slides (S) com base no documento Word em anexo. (C) Usa um design profissional. (E) Gera notas de orador relevantes para cada slide."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="continue-btn" data-next="section-3" disabled>Continuar</button>
+        </section>
+
+        <section id="section-3" class="course-section">
+            <h2>Módulo 3: O Copilot em Ação – Exemplos para o seu Dia a Dia</h2>
+            <p>Vamos ver como aplicar isto a tarefas concretas do nosso departamento.</p>
+
+            <h3>Cenário 1: O Designer Instrucional com um novo projeto</h3>
+            <ul>
+                <li><strong>Desafio:</strong> Precisa de desenhar rapidamente a estrutura de um novo workshop sobre "Comunicação Eficaz".</li>
+                <li><strong>Prompt de Exemplo:</strong>
+                    <blockquote>"Aja como um designer instrucional especialista. Gere um esboço detalhado para um workshop de 1 dia sobre 'Comunicação Eficaz para Funcionários Públicos'. O esboço deve ter 4 módulos, cada um com 2-3 objetivos de aprendizagem e uma sugestão de atividade interativa."</blockquote>
+                </li>
+                <li><strong>Resultado:</strong> O Copilot gera um plano de curso estruturado, poupando horas de trabalho inicial.</li>
+            </ul>
+
+            <h3>Cenário 2: O Coordenador de Formação a analisar feedback</h3>
+            <ul>
+                <li><strong>Desafio:</strong> Tem uma folha de Excel com dezenas de comentários de um curso e precisa de identificar as tendências.</li>
+                <li><strong>Prompt de Exemplo (após carregar o ficheiro):</strong>
+                    <blockquote>"Analisa a coluna 'Feedback Qualitativo' desta folha de Excel e resume os 3 pontos fortes mais mencionados e as 3 principais sugestões de melhoria."</blockquote>
+                </li>
+                <li><strong>Resultado:</strong> Em vez de ler todos os comentários manualmente, obtém uma síntese clara e acionável.</li>
+            </ul>
+
+            <div class="video-placeholder">
+                <p><strong></strong></p>
+                <p><em>Imagine aqui um vídeo curto a demonstrar estes dois cenários em tempo real, mostrando o ecrã do Copilot e os resultados gerados.</em></p>
+            </div>
+            <button class="continue-btn" data-next="section-4">Continuar</button>
+        </section>
+
+        <section id="section-4" class="course-section">
+            <h2>Módulo 4: O Seu Assistente Pessoal de Aprendizagem</h2>
+            <p>O Copilot não serve apenas para executar tarefas; pode ser um poderoso aliado no seu próprio desenvolvimento profissional.</p>
+
+            <h3>Exemplo Prático: Criar um Plano de Desenvolvimento Pessoal</h3>
+            <ul>
+                <li><strong>Desafio:</strong> Quer aprofundar os seus conhecimentos sobre "Gamificação na Aprendizagem para Adultos", mas não sabe por onde começar.</li>
+                <li><strong>Prompt de Exemplo:</strong>
+                    <blockquote>"Aja como um coach de desenvolvimento profissional. Crie um plano de aprendizagem de 4 semanas para eu melhorar as minhas competências em 'Gamificação na Aprendizagem para Adultos'. Para cada semana, sugira um tópico, recomende um artigo ou vídeo e proponha um exercício prático."</blockquote>
+                </li>
+                <li><strong>Resultado:</strong> O Copilot entrega um plano de estudos personalizado, com recursos e atividades, servindo como o seu próprio assistente de formação.</li>
+            </ul>
+            <button class="continue-btn" data-next="section-5">Continuar para a Conclusão</button>
+        </section>
+
+        <section id="section-5" class="course-section">
+            <h2>Conclusão e Próximos Passos</h2>
+            <p>Hoje vimos que o Microsoft Copilot é uma ferramenta segura, poderosa e versátil. Aprendemos a criar instruções eficazes com o framework GCSE e vimos exemplos práticos de como pode acelerar o nosso trabalho diário e até mesmo o nosso desenvolvimento pessoal.</p>
+            <div class="callout-box">
+                <p>Lembre-se sempre do princípio mais importante: <strong>o especialista é você.</strong> O Copilot é um assistente. Reveja, edite e valide sempre o conteúdo que ele gera.</p>
+            </div>
+            <h3>O seu desafio:</h3>
+            <p>Agora é a sua vez! Abra o <a href="[https://copilot.microsoft.com](https://copilot.microsoft.com)" target="_blank">copilot.microsoft.com</a> e experimente. Comece com algo simples: peça para redigir um email que tem de enviar ou para lhe dar 5 ideias para um quebra-gelo para a sua próxima formação.</p>
+            <p>A melhor forma de aprender é fazendo. Divirta-se a explorar!</p>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.course-section');
+            const continueBtns = document.querySelectorAll('.continue-btn');
+
+            // Mostrar a primeira seção
+            const firstSection = document.getElementById('section-0');
+            if (firstSection) {
+                firstSection.classList.add('visible');
+            }
+
+            // Lógica dos botões "Continuar"
+            continueBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const currentSection = btn.closest('.course-section');
+                    const nextSectionId = btn.dataset.next;
+                    const nextSection = document.getElementById(nextSectionId);
+
+                    if (nextSection) {
+                        // Opcional: esconder a seção atual
+                        // currentSection.classList.remove('visible');
+                        nextSection.classList.add('visible');
+                        // Scroll suave para a nova seção
+                        nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // Lógica do Quiz de Verificação de Conhecimento
+            const quiz1 = document.getElementById('quiz-1');
+            if (quiz1) {
+                const options = quiz1.querySelectorAll('.options button');
+                const feedbackEl = quiz1.querySelector('.feedback');
+                const continueBtn = quiz1.parentElement.querySelector('.continue-btn');
+
+                options.forEach(option => {
+                    option.addEventListener('click', () => {
+                        const isCorrect = option.dataset.correct === 'true';
+                        
+                        // Desativar todos os botões após a seleção
+                        options.forEach(b => b.disabled = true);
+
+                        if (isCorrect) {
+                            option.classList.add('correct');
+                            feedbackEl.textContent = 'Correto! A proteção de dados empresariais garante a confidencialidade.';
+                            feedbackEl.classList.add('correct');
+                        } else {
+                            option.classList.add('incorrect');
+                            feedbackEl.textContent = 'Incorreto. A resposta certa é a segunda. Com a proteção de dados ativa, as conversas são confidenciais.';
+                            feedbackEl.classList.add('incorrect');
+                            // Realçar a correta
+                            quiz1.querySelector('button[data-correct="true"]').classList.add('correct');
+                        }
+                        
+                        // Ativar o botão de continuar
+                        continueBtn.disabled = false;
+                    });
+                });
+            }
+
+            // Lógica dos Flashcards
+            const flashcardActivity = document.getElementById('flashcard-activity');
+            if (flashcardActivity) {
+                const flashcards = flashcardActivity.querySelectorAll('.flashcard');
+                const continueBtn = flashcardActivity.parentElement.querySelector('.continue-btn');
+                let flippedCards = new Set();
+
+                flashcards.forEach((card, index) => {
+                    card.addEventListener('click', () => {
+                        card.classList.toggle('is-flipped');
+                        if (card.classList.contains('is-flipped')) {
+                            flippedCards.add(index);
+                        } else {
+                            flippedCards.delete(index);
+                        }
+
+                        // Ativar o botão de continuar se todos os cartões foram virados pelo menos uma vez
+                        if (flippedCards.size === flashcards.length) {
+                            continueBtn.disabled = false;
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
