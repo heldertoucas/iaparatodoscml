@@ -38,6 +38,66 @@
     .hero-content-parallax {
       transition: opacity 0.3s ease-out, transform 0.3s ease-out;
     }
+    
+    /* Blob Animations */
+    .blob-1 { animation: blob-move-1 15s ease-in-out infinite; transform-origin: 50% 50%; }
+    .blob-2 { animation: blob-move-2 17s ease-in-out infinite; transform-origin: 50% 50%; }
+    .blob-3 { animation: blob-move-3 16s ease-in-out infinite; transform-origin: 50% 50%; }
+    
+    @keyframes blob-move-1 {
+      0%   { transform: scale(1)   translate(0px, 0px) rotate(0deg); }
+      33%  { transform: scale(1.1, 0.9) translate(20px, -30px) rotate(120deg); }
+      66%  { transform: scale(0.9, 1.1) translate(-20px, 20px) rotate(240deg); }
+      100% { transform: scale(1)   translate(0px, 0px) rotate(360deg); }
+    }
+    
+    @keyframes blob-move-2 {
+      0%   { transform: scale(1)   translate(0px, 0px) rotate(0deg); }
+      33%  { transform: scale(0.9, 1.1) translate(-30px, 15px) rotate(-100deg); }
+      66%  { transform: scale(1.1, 0.9) translate(10px, -25px) rotate(200deg); }
+      100% { transform: scale(1)   translate(0px, 0px) rotate(360deg); }
+    }
+
+    @keyframes blob-move-3 {
+      0%   { transform: scale(1)   translate(0px, 0px) rotate(0deg); }
+      33%  { transform: scale(1) translate(25px, 25px) rotate(70deg); }
+      66%  { transform: scale(1.1) translate(-15px, -15px) rotate(-140deg); }
+      100% { transform: scale(1)   translate(0px, 0px) rotate(360deg); }
+    }
+
+
+    /* Floating Icon Animation */
+    .floating-icon {
+        animation: float-effect 4s ease-in-out infinite;
+    }
+    
+    .floating-icon-1 {
+        animation: float-effect-1 4s ease-in-out infinite;
+    }
+    
+    .floating-icon-2 {
+        animation: float-effect-2 4s ease-in-out infinite;
+        animation-delay: 0.5s;
+    }
+
+    @keyframes float-effect {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+    
+    @keyframes float-effect-1 {
+        0% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-12px) rotate(5deg); }
+        100% { transform: translateY(0px) rotate(0deg); }
+    }
+    
+    @keyframes float-effect-2 {
+        0% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(8px) rotate(-5deg); }
+        100% { transform: translateY(0px) rotate(0deg); }
+    }
+
   </style>
 </head>
 <body>
@@ -88,12 +148,7 @@
     const Icon = ({ name, className = "h-6 w-6" }) => {
       const ICONS = {
         bookOpen: <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />,
-        users: <><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></>,
-        globe: <><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></>,
-        shield: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />,
-        eye: <><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" /><circle cx="12" cy="12" r="3" /></>,
-        book: <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />,
-        fileText: <><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" /></>,
+        award: <><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></>,
         monitor: <><rect width="20" height="14" x="2" y="3" rx="2" /><line x1="2" x2="22" y1="20" y2="20" /></>,
         video: <><path d="m22 8-6 4 6 4V8Z" /><rect width="14" height="12" x="2" y="6" rx="2" ry="2" /></>,
         arrowDown: <><line x1="12" y1="5" x2="12" y2="19" /><polyline points="19 12 12 19 5 12" /></>,
@@ -257,21 +312,104 @@
         );
     };
     
-    // --- AboutSection Component (UPDATED with external SVGs) ---
+    // --- Blob Animation Components ---
+    const BlobAnimation = ({ blobClass, blobFillId, blobPath, icon, gradientColors }) => (
+      <div className="relative w-full h-full flex items-center justify-center">
+        <div className="absolute blob-container w-full h-full">
+            <svg className={`w-full h-full ${blobClass}`} viewBox="0 0 310 350" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id={blobFillId} x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style={{stopColor: gradientColors[0]}} />
+                        <stop offset="100%" style={{stopColor: gradientColors[1]}} />
+                    </linearGradient>
+                </defs>
+                <path d={blobPath} fill={`url(#${blobFillId})`}/>
+            </svg>
+        </div>
+        <div className="relative floating-icon">
+            {icon}
+        </div>
+      </div>
+    );
+    
+    // --- AboutSection Component ---
     const AboutSection = () => {
         const items = [
             {
-                iconSrc: "Group11.svg",
+                iconComponent: (
+                    <BlobAnimation 
+                        blobClass="blob-1"
+                        blobFillId="grad1"
+                        gradientColors={['#A7F3D0', '#6EE7B7']}
+                        blobPath="M156.4,339.5c31.8-2.5,59.4-26.8,80.2-48.5c28.3-29.5,40.5-47,56.1-85.1c14-34.3,20.7-75.6,2.3-111 c-18.1-34.8-55.7-58-90.4-72.3c-11.7-4.8-24.1-8.8-36.8-11.5l-0.9-0.9l-0.6,0.6c-27.7-5.8-56.6-6-82.4,3c-38.8,13.6-64,48.8-66.8,90.3c-3,43.9,17.8,88.3,33.7,128.8c5.3,13.5,10.4,27.1,14.9,40.9C77.5,309.9,111,343,156.4,339.5z"
+                        icon={
+                            <svg width="100" height="100" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                                <g fill="#1E293B">
+                                    <path d="M7.3 53.8h49.4c.8 0 1.4-.6 1.4-1.4v-33c0-.8-.6-1.4-1.4-1.4H7.3c-.7 0-1.3.6-1.3 1.4v33c0 .8.6 1.4 1.3 1.4"></path>
+                                    <path d="M2 58.7C2 60.3 3.3 62 5 62h54c1.6 0 3-1.7 3-3.3H2z"></path>
+                                </g>
+                                <path fill="#FFFFFF" d="M57 53.8H7l-5 4.9h60z"></path>
+                                <path fill="#E0E0E0" d="M55.3 54.2H8.7l-1.7 2h50z"></path>
+                                <path fill="#1E293B" d="M37.1 57.1H26.9l-.8 1.1h11.8z"></path>
+                                <path fill="#334155" d="M9 21h46v29.8H9z"></path>
+                                <circle cx="32" cy="19.6" r=".8" fill="#FFFFFF"></circle>
+                                <path d="M36.3 60.8h-8.6c-.3 0-1.1 0-1.1-1h10.8c0 1-.8 1-1.1 1" fill="#334155"></path>
+                            </svg>
+                        }
+                    />
+                ),
                 title: "Todos podem aprender",
                 description: "Oferecemos recursos e workshops para desmistificar a Inteligência Artificial, tornando-a compreensível para qualquer pessoa, independentemente da sua formação.",
             },
             {
-                iconSrc: "Group12.svg",
+                iconComponent: (
+                    <BlobAnimation 
+                        blobClass="blob-2"
+                        blobFillId="grad2"
+                        gradientColors={['#C4B5FD', '#A78BFA']}
+                        blobPath="M123.5,338.5Q71,327,65,259.5Q59,192,88,138Q117,84,178,58Q239,32,271.5,88Q304,144,297,197Q290,250,237.5,283Q185,316,154.5,327.5Q124,339,123.5,338.5Z"
+                        icon={
+                            <svg width="100" height="100" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="#F3D49D" d="M451.177,256.355L245.792,122.63l-63.871-31.174l-93.589-22.51L0,251.31l47.208,40.632 l159.959,137.679l57.158,37.894c16.164,10.445,37.734,5.808,48.179-10.356c10.445-16.164,5.808-37.734-10.356-48.178 c0,0,5.642,3.546,11.854,7.659c4.921,3.258,11.059,4.992,17.404,5.145c12.859,0.629,25.695-5.413,33.184-17.004l0,0 c7.539-11.667,7.728-25.961,1.752-37.464c15.799,8.351,35.634,3.386,45.516-11.906l0,0c10.444-16.163,5.809-37.73-10.351-48.176 l11.848,7.657c16.164,10.445,37.734,5.808,48.179-10.356l0,0C471.976,288.37,467.34,266.8,451.177,256.355z"/>
+                                <path fill="#EEBF70" d="M45.091,158.219L0,251.31l47.208,40.632l159.959,137.679l57.158,37.894 c16.164,10.445,37.734,5.808,48.179-10.356c10.445-16.164,5.808-37.734-10.356-48.178c0,0,5.642,3.546,11.854,7.659 c4.921,3.258,11.059,4.992,17.404,5.145c12.859,0.629,25.695-5.413,33.184-17.004c7.539-11.667,7.728-25.961,1.752-37.464l0,0 L120.231,196.484L45.091,158.219z"/>
+                                <g>
+                                    <path fill="#A67420" d="M215.539,352.459L215.539,352.459c-16.164-10.445-37.734-5.808-48.179,10.356 c10.445-16.164,5.808-37.734-10.356-48.178l0,0c-16.164-10.445-37.734-5.808-48.179,10.356 c10.445-16.164,5.808-37.734-10.356-48.178l0,0c-16.164-10.445-37.734-5.808-48.178,10.356l-35.724,55.287 c-10.445,16.164-5.808,37.734,10.356,48.178l0,0c16.164,10.445,37.734,5.808,48.178-10.356 c-10.445,16.164-5.808,37.734,10.356,48.178c16.164,10.445,37.734,5.808,48.178-10.356c-10.445,16.164-5.808,37.734,10.356,48.178 c16.164,10.445,37.734,5.808,48.179-10.356l35.724-55.287C236.339,384.473,231.702,362.904,215.539,352.459z"/>
+                                    <path fill="#A67420" d="M245.792,122.63l-46.631,70.773c-10.445,16.164-32.014,20.801-48.178,10.356l0,0 c-16.164-10.445-20.801-32.014-10.356-48.178l69.875-108.506l254.95-8.171L512,195.78l-71.987,53.306L245.792,122.63z"/>
+                                </g>
+                                <g>
+                                    <path fill="#7A5007" d="M215.539,352.459L215.539,352.459c-16.164-10.445-37.734-5.808-48.179,10.356 c10.445-16.164,5.808-37.734-10.356-48.178l-73.547,113.82c16.164,10.445,37.734,5.808,48.178-10.356 c-10.445,16.164-5.808,37.734,10.356,48.178c16.164,10.445,37.734,5.808,48.179-10.356l35.724-55.287 C236.339,384.473,231.702,362.904,215.539,352.459z"/>
+                                    <polygon fill="#7A5007" points="315.727,168.164 440.013,249.087 512,195.78 485.208,105.484 	"/>
+                                </g>
+                             </svg>
+                        }
+                    />
+                ),
                 title: "Todos podem participar",
                 description: "Fomentamos um espaço de debate e colaboração, onde cidadãos, especialistas e decisores podem moldar o futuro da IA em conjunto.",
             },
             {
-                iconSrc: "Group13.svg",
+                iconComponent: (
+                    <BlobAnimation 
+                        blobClass="blob-3"
+                        blobFillId="grad3"
+                        gradientColors={['#7DD3FC', '#38BDF8']}
+                        blobPath="M163,342.5Q120,335,90.5,299Q61,263,44,206.5Q27,150,73,103.5Q119,57,179.5,49Q240,41,277,90.5Q314,140,305.5,195Q297,250,253,281Q209,312,186,328.5Q163,345,163,342.5Z"
+                        icon={
+                            <div className="relative w-full h-full">
+                                <div className="absolute top-1/4 left-1/4 w-1/2 h-1/2 floating-icon-1" style={{filter: 'drop-shadow(0px 2px 4px rgba(0,0,0,0.2))'}}>
+                                    <svg viewBox="0 0 741 740" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5.20923 374.933C-0.46971 373.8 -0.407963 363.7 5.2844 362.637C67.9772 350.928 196.635 320.157 260.32 256.475C323.055 193.745 353.853 67.9704 365.952 4.30654C367.043 -1.43879 377.671 -1.4341 378.757 4.31214C390.8 67.975 421.488 193.737 484.173 256.475C546.872 319.228 672.617 349.991 736.402 362.085C742.152 363.176 742.147 373.834 736.397 374.919C672.612 386.958 546.88 417.611 484.173 480.314C420.502 543.981 389.876 672.622 378.229 735.419C377.173 741.116 367.05 741.188 365.914 735.506C353.19 671.877 320.723 540.676 260.32 480.314C199.951 419.984 68.7388 387.603 5.20923 374.933Z" fill="white"/>
+                                    </svg>
+                                </div>
+                                <div className="absolute bottom-1/4 right-1/4 w-1/3 h-1/3 floating-icon-2" style={{filter: 'drop-shadow(0px 2px 4px rgba(0,0,0,0.2))'}}>
+                                    <svg viewBox="0 0 741 740" fill="none" xmlns="http://www.w3.org/2000/svg" style={{transform: 'scaleX(-1)'}}>
+                                        <path d="M5.20923 374.933C-0.46971 373.8 -0.407963 363.7 5.2844 362.637C67.9772 350.928 196.635 320.157 260.32 256.475C323.055 193.745 353.853 67.9704 365.952 4.30654C367.043 -1.43879 377.671 -1.4341 378.757 4.31214C390.8 67.975 421.488 193.737 484.173 256.475C546.872 319.228 672.617 349.991 736.402 362.085C742.152 363.176 742.147 373.834 736.397 374.919C672.612 386.958 546.88 417.611 484.173 480.314C420.502 543.981 389.876 672.622 378.229 735.419C377.173 741.116 367.05 741.188 365.914 735.506C353.19 671.877 320.723 540.676 260.32 480.314C199.951 419.984 68.7388 387.603 5.20923 374.933Z" fill="white"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        }
+                    />
+                ),
                 title: "Todos podem contribuir",
                 description: "Promovemos iniciativas que aplicam a IA para o bem comum, resolvendo problemas locais e contribuindo para uma sociedade mais justa e eficiente.",
             }
@@ -286,11 +424,11 @@
                     <p className="text-lg text-gray-600 text-center max-w-3xl mx-auto mb-16">
                         O nosso programa é uma iniciativa para capacitar todos os cidadãos com literacia em IA, garantindo que a tecnologia serve a humanidade de forma justa, transparente e benéfica.
                     </p>
-                    <div className="max-w-4xl mx-auto space-y-12">
+                    <div className="max-w-4xl mx-auto space-y-24">
                         {items.map((item, index) => (
                             <AnimatedSection key={item.title} tag="div" className="flex flex-col sm:flex-row items-center text-center sm:text-left gap-8" delay={`${index * 0.15}s`}>
-                                <div className="w-40 h-40 sm:w-56 sm:h-56 flex-shrink-0 flex items-center justify-center">
-                                   <img src={item.iconSrc} alt={item.title} className="w-full h-full object-contain" />
+                                <div className="w-56 h-56 sm:w-64 sm:h-64 flex-shrink-0 flex items-center justify-center">
+                                   {item.iconComponent}
                                 </div>
                                 <div>
                                     <h3 className="text-2xl font-semibold mb-2">{item.title}</h3>
@@ -366,11 +504,11 @@
         );
     };
     
-    // --- LearnSection Component (UPDATED label position) ---
+    // --- LearnSection Component ---
     const LearnSection = ({ onShowResources }) => {
         const resources = [
             { icon: "book", title: "Curso rápido ✨Descobrir a IA", level: "Iniciante", levelColorClass: "bg-green-100 text-green-800", description: "Comece a sua jornada com conceitos fundamentais explicados em linguagem simples." },
-            { icon: "fileText", title: "Certificação IA para Todos", level: "Todos os Níveis", levelColorClass: "bg-blue-100 text-blue-800", description: "Compreenda as considerações éticas e as implicações do desenvolvimento da IA." },
+            { icon: "award", title: "Certificação IA para Todos", level: "Todos os Níveis", levelColorClass: "bg-blue-100 text-blue-800", description: "Compreenda as considerações éticas e as implicações do desenvolvimento da IA." },
             { icon: "monitor", title: "Ferramentas Práticas", level: "Interativo", levelColorClass: "bg-purple-100 text-purple-800", description: "Descubra ferramentas acessíveis que lhe permitem experienciar a IA em primeira mão." },
             { icon: "video", title: "Melhore", level: "Visual", levelColorClass: "bg-orange-100 text-orange-800", description: "Assista aos nossos vídeos explicativos que decompõem tópicos complexos de IA." },
         ];
@@ -415,31 +553,31 @@
         const resources = [
             {
                 icon: "book",
-                title: "Fundamentos de IA: Da Teoria à Prática",
+                title: "Fundamentos de IA: Curso rápido ✨Descobrir a IA",
                 description: "Domine os conceitos centrais de IA. Cobrimos tudo, desde algoritmos fundamentais e o papel dos dados na IA até às distinções entre IA Restrita, IA Geral e Superinteligência. Explore percursos de aprendizagem para iniciantes e para quem procura atualizar os seus conhecimentos.",
                 topics: ["Modelos de Aprendizagem Automática", "Arquiteturas de Redes Neuronais", "Pré-processamento de Dados", "Fundamentos de Processamento de Linguagem Natural"],
-                buttonText: "Iniciar Curso de Fundamentos de IA"
+                buttonText: "Inscrever-se no Curso ✨Descobrir a IA"
             },
             {
                 icon: "fileText",
-                title: "IA Ética: Estruturas e Dilemas",
+                title: "IA de Iniciante a Avançado: Certificação IA para Todos",
                 description: "Aprofunde as dimensões éticas críticas da IA. Compreenda como podem surgir preconceitos, a importância da transparência na tomada de decisões por IA e estruturas para construir sistemas de IA responsáveis. Exploramos estudos de caso do mundo real e debates em curso.",
                 topics: ["Preconceito Algorítmico e Justiça", "Transparência e Explicabilidade da IA (XAI)", "Privacidade e Segurança de Dados", "Governação e Regulamentação da IA"],
-                buttonText: "Ler Artigos sobre Ética"
+                buttonText: "Obter a Certificação IA para Todos"
             },
             {
                 icon: "monitor",
                 title: "IA Interativa: Ferramentas e Simuladores",
                 description: "Interaja diretamente com a IA através da nossa lista curada de ferramentas interativas, simuladores e projetos de código aberto. Experimente modelos simples, visualize dados e compreenda as capacidades da IA num ambiente prático. Não é necessária experiência em programação para muitas ferramentas!",
                 topics: ["Construtores de Modelos de IA Sem Código", "Widgets de Visualização de Dados", "Sandbox de Demonstração de PLN", "Testadores de Reconhecimento de Imagem"],
-                buttonText: "Aceder ao Playground de IA"
+                buttonText: "Aceder ao Laboratório de IA"
             },
             {
                 icon: "video",
-                title: "IA Explicada: Vídeos e Palestras de Especialistas",
+                title: "IA Explicada: Curtas de IA",
                 description: "Aprenda visualmente com a nossa abrangente videoteca. Inclui explicadores animados para tópicos complexos, entrevistas com especialistas em IA e gravações de webinars anteriores sobre investigação e aplicações de IA de vanguarda. Adequado para todas as preferências de aprendizagem.",
                 topics: ["Série 'IA em 5 Minutos'", "Painéis de Discussão com Especialistas", "Tutoriais sobre Ferramentas de IA", "Webinars sobre o Futuro do Trabalho com IA"],
-                buttonText: "Consultar Videoteca"
+                buttonText: "Consultar a Videoteca"
             }
         ];
 
